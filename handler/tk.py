@@ -6,7 +6,8 @@ from func.tiktok_func import *
 
 async def tk_video_sender(message : types.message):
     # video_id = get_video_id(message.text)
-    video_id = message['from']['id']
+    video_id = str(message['from']['id'])
+    print(video_id)
     file_path = 'tiktok_download/'+str(video_id)+'.mp4'    
 
     download_video(message.text, video_id)
