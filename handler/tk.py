@@ -8,9 +8,9 @@ async def tk_video_sender(message : types.message):
     # video_id = get_video_id(message.text)
     video_id = str(message['from']['id'])
     file_path = 'tiktok_download/'+str(video_id)+'.mp4'
-    print('Готовлюсь качать')
+
     download_video(str(message.text), video_id)
-    print('скачал')
+
     await message.answer('Отправляю видео, ожидайте')
     await message.answer_video(open(file_path, 'rb'))
     os.remove(file_path)
