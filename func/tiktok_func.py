@@ -1,11 +1,10 @@
-from TikTokAPI import TikTokAPI
 from tiktok_downloader import tikmate
 import requests
 from bs4 import BeautifulSoup
 
 def get_video_id(url): 
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
             }
     page = requests.get(url, headers=headers)
     soup = BeautifulSoup(page.text, 'html.parser')
@@ -20,9 +19,7 @@ def get_video_id(url):
 
 
 def download_video(url, video_id):    
+    path = 'tiktok_download/' + video_id + '.mp4'
+    tikmate().get_media(url)[0].download(path)
 
-    tikmate().get_media(url)[0].download('tiktok_download/' + video_id + '.mp4')
 
-def download_video_test(video_id):    
-    api = TikTokAPI()
-    api.downloadVideoById(video_id=video_id, save_path = 'tiktok_download/' + video_id + '.mp4')
