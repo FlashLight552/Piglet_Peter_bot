@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 # Коннект хендлеров
 start.handlers_start(dp)
 tk.handlers_tiktok(dp)
-# speech_recognition.handlers_sr(dp)
+speech_recognition.handlers_sr(dp)
 
 # Старт 
 if __name__ == '__main__':
