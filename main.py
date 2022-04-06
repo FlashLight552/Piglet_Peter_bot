@@ -2,7 +2,7 @@ from aiogram.utils import executor
 import logging
 
 from create_bot import dp
-from handler import tk, start, speech_recognition
+from handler import tk, start, speech_recognition, translate
 
 # Логи
 logging.basicConfig(level=logging.INFO)
@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.INFO)
 start.handlers_start(dp)
 tk.handlers_tiktok(dp)
 speech_recognition.handlers_sr(dp)
+translate.handlers_translate(dp)
 
 # Старт 
 if __name__ == '__main__':
