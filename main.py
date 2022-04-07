@@ -2,14 +2,14 @@ from aiogram.utils import executor
 import logging
 
 from create_bot import dp
-from handler import tk, start, speech_recognition, translate
+from handler import tiktok, start, speech_recognition, translate
 
 # Логи
 logging.basicConfig(level=logging.INFO)
 
 # Коннект хендлеров
 start.handlers_start(dp)
-tk.handlers_tiktok(dp)
+tiktok.handlers_tiktok(dp)
 speech_recognition.handlers_sr(dp)
 translate.handlers_translate(dp)
 

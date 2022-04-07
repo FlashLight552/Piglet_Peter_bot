@@ -1,36 +1,69 @@
 import subprocess
 import os
 
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher.filters import Text
 
 from aiogram import types, Dispatcher
 from create_bot import telegram_bot
-from func.google_recognize import google_rec
-from func.vosk_offline import vosk_ru_model
+from function.google_recognize import google_rec
+from function.vosk_ffmpeg import vosk_ffmpeg_ru_model
 
-async def voice_message(message:types.message):
+from data.btn import lang_voice_inline
+
+# Класс состояний
+class Form(StatesGroup):
+    voice_recog = State()
+
+
+async def voice_message(message:types.message, state: FSMContext):
+    await message.reply('На каком языке говорят?', reply_markup=lang_voice_inline)
     # download voice message
     file_id = message.voice.file_id
     file = await telegram_bot.get_file(file_id)
     file_path = file.file_path
     await telegram_bot.download_file(file_path, 'voice_message/'+str(file.file_id)+'.oga')
-   
-    # oga to wav
-    src_filename = 'voice_message/'+str(file.file_id)+'.oga' 
-    dest_filename = 'voice_message/'+str(file.file_id)+'.wav' 
-    subprocess.run(['ffmpeg', '-i', src_filename, dest_filename], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     
-    try : result = google_rec(dest_filename)
-    except: result = vosk_ru_model(dest_filename)
+    async with state.proxy() as proxy:
+        proxy['file_path'] = 'voice_message/'+str(file.file_id)
+    await Form.voice_recog.set()
 
-    # Message send
-    try: await message.reply(result)
-    except: await message.reply('СЛОЖНА, СЛОЖНА, НИЧЕГО НЕ ПОНЯТНО, СЛОЖНА!')    
 
+async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
+    async with state.proxy() as proxy:
+        proxy['data'] = call.data
+
+    src_filename = proxy['file_path']+'.oga' 
+    dest_filename = proxy['file_path']+'.wav' 
+    sample_rate=16000
+
+    subprocess.run(['ffmpeg', '-i', src_filename,'-ar', str(sample_rate), '-ac', '1', '-af', 'highpass=f=200, lowpass=f=3000', dest_filename], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+    try : 
+        result = google_rec(dest_filename, proxy['data'])
+        result = result + '\nGoogle Speech Recognition'
+    except: 
+        try : 
+            result = vosk_ffmpeg_ru_model(src_filename, proxy['data'])
+            result = result + '\nVosk'
+        except: result = 'Говорите текст четко в микрофон, я не понимаю. Или свяжитесь с @ShtefanNein.'
+
+        # Message send
+    await call.message.delete()    
+    await call.message.answer(result)
     
     # Очистка
     try: 
-        os.remove('voice_message/'+file.file_id+'.oga')
-        os.remove('voice_message/'+file.file_id+'.wav')
+        os.remove(proxy['file_path']+'.oga')
+        os.remove(proxy['file_path']+'.wav')
     except: pass
+
+    await state.finish()
+
+
 def handlers_sr(dp: Dispatcher):
     dp.register_message_handler(voice_message, content_types=['voice'])  
+    dp.register_callback_query_handler(sel_lang_and_recog, text='ru-RU', state=Form.voice_recog)
+    dp.register_callback_query_handler(sel_lang_and_recog, text='uk-UA', state=Form.voice_recog)
+    dp.register_callback_query_handler(sel_lang_and_recog, text='en-US', state=Form.voice_recog)
