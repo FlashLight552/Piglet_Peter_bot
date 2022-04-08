@@ -40,14 +40,30 @@ async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
 
     subprocess.run(['ffmpeg', '-i', src_filename,'-ar', str(sample_rate), '-ac', '1', '-af', 'highpass=f=200, lowpass=f=3000', dest_filename], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    try : result = google_rec(dest_filename, proxy['data'])
-    except: 
-        try : result = vosk_ffmpeg_ru_model(src_filename, proxy['data'])
-        except: result = 'Я не понимаю! Говорите текст четко в микрофон. Или свяжитесь с @ShtefanNein.'
+    result = ''
+    error_text = 'Я не понимаю! Говорите текст четко в микрофон. Или свяжитесь с @ShtefanNein.'
+    # result = google_rec(dest_filename, proxy['data'])
+    try : 
+        result = google_rec(dest_filename, proxy['data'])
+        
+    except : pass    
+        
+    if not result:
+        try : 
+            result = vosk_ffmpeg_ru_model(src_filename, proxy['data'])
+            
+        except: pass
+    if not result:        
+        result = error_text
+   
+
 
         # Message send
-    await call.message.delete()    
-    await call.message.answer(result, reply_markup=translate_ask_inline)
+    await call.message.delete()  
+    if result != error_text:   
+        await call.message.answer(result, reply_markup=translate_ask_inline)
+    else:
+        await call.message.answer(result)    
     
     # Очистка
     try: 
