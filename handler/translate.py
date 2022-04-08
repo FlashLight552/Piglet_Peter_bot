@@ -2,12 +2,12 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
+
 from gtts import gTTS
 import os
 
-
 from create_bot import telegram_bot
-from data.btn import lang_select, cancel_inline, listen_inline
+from data.btn import *
 from function.google_translate import google_translate, language_cheker
 
 
@@ -15,28 +15,32 @@ from function.google_translate import google_translate, language_cheker
 class Form(StatesGroup):
     text_message = State()
 
-
 async def message_answer(message: types.message):
     await message.answer('На какой язык будем переводить?', reply_markup=lang_select) 
 
 
 async def lang_choise(call: types.CallbackQuery, state: FSMContext):
-    async with state.proxy() as proxy: # Устанавливаем состояние ожидания
+    async with state.proxy() as proxy:
         proxy['data'] = call.data
-        
-        msg = await call.message.answer('Что я должен перевести?', reply_markup=cancel_inline)
-        proxy['massage_id'] = msg.message_id
-        proxy['chat_id'] = msg.chat.id
-
-    await Form.text_message.set() # Устанавливаем состояние   
-
+        if 'call.message.text' not in proxy:  # Проверка, это сообщение с голосового или нет
+            msg = await call.message.answer('Что я должен перевести?', reply_markup=cancel_inline)
+            proxy['massage_id'] = msg.message_id
+            proxy['chat_id'] = msg.chat.id
+            await Form.text_message.set()  
+        else: # Основной блок с вводом сообщения для перевода
+            text = google_translate(proxy['call.message.text'], dest_lang=proxy['data'])
+            await call.message.delete()
+            await call.message.answer(text, reply_markup=listen_inline)
+            await state.finish()
+            del(proxy['call.message.text'])  
+             
 
 async def cancel(call: types.CallbackQuery, state: FSMContext):
     current_stage = await state.get_state()
     if current_stage is None:
         return
     await call.message.delete()   
-    await state.finish() # Выключаем состояние 
+    await state.finish() 
 
 
 async def translate(message: types.Message, state: FSMContext):
@@ -50,13 +54,17 @@ async def translate(message: types.Message, state: FSMContext):
 async def listen(call: types.CallbackQuery):
     try:
         text = call.message.text
+        await call.message.edit_text(text, reply_markup=wait_inline)
         lang = language_cheker(text)
         result = gTTS(text=text, lang=lang, slow=False)
         path = 'voice_message/'+str(call.message.message_id) + '_' + str(call.message.chat.id) + '.mp3'
         result.save(path) 
         await call.message.answer_voice(open(path, 'rb'))
         os.remove(path)
-    except : call.message.answer('Упс, техничиские проблемки. Свяжитесь с @ShtefanNein.')
+        await call.message.edit_text(text, reply_markup=ready_inline)
+    except : 
+        await call.message.answer('Упс, техничиские проблемки. Свяжитесь с @ShtefanNein.')
+        await call.message.edit_text(text, reply_markup=ready_inline)
 
 
 # Регистрация хендлеров

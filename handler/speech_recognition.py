@@ -10,7 +10,7 @@ from create_bot import telegram_bot
 from function.google_recognize import google_rec
 from function.vosk_ffmpeg import vosk_ffmpeg_ru_model
 
-from data.btn import lang_voice_inline
+from data.btn import *
 
 # Класс состояний
 class Form(StatesGroup):
@@ -40,18 +40,14 @@ async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
 
     subprocess.run(['ffmpeg', '-i', src_filename,'-ar', str(sample_rate), '-ac', '1', '-af', 'highpass=f=200, lowpass=f=3000', dest_filename], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-    try : 
-        result = google_rec(dest_filename, proxy['data'])
-        result = result + '\nGoogle Speech Recognition'
+    try : result = google_rec(dest_filename, proxy['data'])
     except: 
-        try : 
-            result = vosk_ffmpeg_ru_model(src_filename, proxy['data'])
-            result = result + '\nVosk'
-        except: result = 'Говорите текст четко в микрофон, я не понимаю. Или свяжитесь с @ShtefanNein.'
+        try : result = vosk_ffmpeg_ru_model(src_filename, proxy['data'])
+        except: result = 'Я не понимаю! Говорите текст четко в микрофон. Или свяжитесь с @ShtefanNein.'
 
         # Message send
     await call.message.delete()    
-    await call.message.answer(result)
+    await call.message.answer(result, reply_markup=translate_ask_inline)
     
     # Очистка
     try: 
@@ -62,8 +58,17 @@ async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
     await state.finish()
 
 
+async def translate_recog_text(call: types.CallbackQuery, state: FSMContext):
+    await call.message.answer('На какой язык будем переводить?', reply_markup=lang_select)
+    async with state.proxy() as proxy:
+        proxy['call.message.text'] = call.message.text
+    # await call.message.edit_text(proxy['call.message.text'], reply_markup=ready_inline)  
+    await call.message.edit_text(proxy['call.message.text'], reply_markup=None)  
+
 def handlers_sr(dp: Dispatcher):
     dp.register_message_handler(voice_message, content_types=['voice'])  
     dp.register_callback_query_handler(sel_lang_and_recog, text='ru-RU', state=Form.voice_recog)
     dp.register_callback_query_handler(sel_lang_and_recog, text='uk-UA', state=Form.voice_recog)
     dp.register_callback_query_handler(sel_lang_and_recog, text='en-US', state=Form.voice_recog)
+
+    dp.register_callback_query_handler(translate_recog_text, text='translate_ask')

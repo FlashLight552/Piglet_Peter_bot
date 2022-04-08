@@ -28,3 +28,15 @@ help_inline.add(help)
 listen_inline = InlineKeyboardMarkup()
 listen = InlineKeyboardButton(text='Прослушать', callback_data='listen')
 listen_inline.add(listen)
+
+wait_inline = InlineKeyboardMarkup()
+wait = InlineKeyboardButton(text='Ожидайте', callback_data='wait')
+wait_inline.add(wait)
+
+ready_inline = InlineKeyboardMarkup()
+ready = InlineKeyboardButton(text='Готово', callback_data='ready')
+ready_inline.add(ready)
+
+translate_ask_inline = InlineKeyboardMarkup()
+translate_ask = InlineKeyboardButton(text='Перевести?', callback_data='translate_ask')
+translate_ask_inline.add(translate_ask)
