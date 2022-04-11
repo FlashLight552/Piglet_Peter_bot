@@ -1,5 +1,11 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
+
+cancel_inline = InlineKeyboardMarkup()
+cancel = InlineKeyboardButton(text='Отмена', callback_data='cancel')
+cancel_inline.add(cancel)
+
+
 lang_select = InlineKeyboardMarkup()
 ru = InlineKeyboardButton(text='Русский', callback_data='ru')
 en = InlineKeyboardButton(text='English', callback_data='en')
@@ -14,12 +20,8 @@ lang_voice_inline = InlineKeyboardMarkup()
 ru_voice = InlineKeyboardButton(text='Русский', callback_data='ru-RU')
 ua_voice = InlineKeyboardButton(text='Українська', callback_data='uk-UA')
 en_voice = InlineKeyboardButton(text='English', callback_data='en-US')
-lang_voice_inline.add(en_voice, ua_voice, ru_voice)
+lang_voice_inline.add(en_voice, ua_voice, ru_voice, cancel)
 
-
-cancel_inline = InlineKeyboardMarkup()
-cancel = InlineKeyboardButton(text='Отмена', callback_data='cancel')
-cancel_inline.add(cancel)
 
 help_inline = InlineKeyboardMarkup()
 help = InlineKeyboardButton(text='Что я умею?', callback_data='help')

@@ -12,7 +12,7 @@ async def tk_video_sender(message : types.message):
         'хрю-хрю-хрю','Слава Україні!']
 
     download_video(str(message.text), video_id)
-    await message.reply_video(open(file_path, 'rb'), caption=random.choice(answer_list))
+    await message.reply_video(open(file_path, 'rb'), caption=random.choice(answer_list), disable_notification=True)
     os.remove(file_path)
 
     

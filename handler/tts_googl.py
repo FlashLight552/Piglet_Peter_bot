@@ -12,7 +12,7 @@ class Form(StatesGroup):
     tts = State()
 
 async def tts_request(message : types.message):
-    await message.answer('Напиши мне сообщение и я его озвучу', reply_markup=cancel_inline)
+    await message.answer('Напиши мне сообщение и я его озвучу', reply_markup=cancel_inline, disable_notification=True)
     await Form.tts.set()
 
 async def get_tts(message : types.message, state: FSMContext):
@@ -22,10 +22,10 @@ async def get_tts(message : types.message, state: FSMContext):
         result = gTTS(text=text, lang=lang, slow=False)
         path = 'voice_message/'+str(message.message_id) + '_' + str(message.chat.id) + '.mp3'
         result.save(path) 
-        await message.answer_voice(open(path, 'rb'))
+        await message.answer_voice(open(path, 'rb'), disable_notification=True)
         os.remove(path)
     except:
-        await message.answer('Упс, техничиские проблемки. Возможно было использовано более одного языка, проверь сообщение или попробуйте еще раз. Если ничего не выходит - свяжитесь с @ShtefanNein.')        
+        await message.answer('Упс, техничиские проблемки. Возможно было использовано более одного языка, проверь сообщение или попробуйте еще раз. Если ничего не выходит - свяжитесь с @ShtefanNein.', disable_notification=True)        
     await state.finish()
 
 def handlers_tts_google(dp: Dispatcher):
