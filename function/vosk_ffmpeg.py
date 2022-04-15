@@ -2,7 +2,7 @@ from vosk import Model, KaldiRecognizer, SetLogLevel
 import subprocess
 import json
 
-def vosk_ffmpeg_ru_model(src_filename, model):
+def vosk_ffmpeg_model(src_filename, model):
     SetLogLevel(-1)
 
     sample_rate=16000

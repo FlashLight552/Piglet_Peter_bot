@@ -20,7 +20,7 @@ lang_voice_inline = InlineKeyboardMarkup()
 ru_voice = InlineKeyboardButton(text='Русский', callback_data='ru-RU')
 ua_voice = InlineKeyboardButton(text='Українська', callback_data='uk-UA')
 en_voice = InlineKeyboardButton(text='English', callback_data='en-US')
-lang_voice_inline.add(en_voice, ua_voice, ru_voice, cancel)
+lang_voice_inline.add(en_voice, ua_voice, ru_voice)
 
 
 help_inline = InlineKeyboardMarkup()

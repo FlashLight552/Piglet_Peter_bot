@@ -13,4 +13,4 @@ def language_cheker(src_text):
         translator = Translator()
         src_lang = translator.detect(src_text)
         return(src_lang.lang)
-    except: pass         
+    except Exception as error: print(error)         
