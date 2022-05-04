@@ -25,10 +25,12 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-models/en-US/
-models/ru-RU/
-models/uk-UA/
-models/models.zip
+/models/en-US/
+/models/ru-RU/
+/models/uk-UA/
+/data/session-*
+/models/models.zip
+/data/config.py
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
