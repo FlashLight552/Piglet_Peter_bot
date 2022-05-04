@@ -4,11 +4,11 @@ import glob
 import os
 
 async def inst_dl(message: types.Message):
-    msg = await message.answer('Загрузка поста.')
+    msg = await message.answer('Загрузка поста.', disable_notification=True)
     file = instagram_downloader(message.text)
     
     if file.startswith('Login error:') or file.startswith('Access denied:'):
-        await msg.edit_text(file)
+        await msg.edit_text(file, disable_notification=True)
     
     else:
         await types.ChatActions.upload_document()
@@ -24,7 +24,7 @@ async def inst_dl(message: types.Message):
             for item in file_mp4:
                 media.attach_video(open(item, 'rb'))                        
         
-        await message.answer_media_group(media)
+        await message.answer_media_group(media, disable_notification=True)
         await msg.delete()   
 
         for item in glob.glob(fr'instaloader/{file}*'):
