@@ -26,9 +26,9 @@ async def voice_message(message:types.message, state: FSMContext):
         file_id = message.voice.file_id
         file = await telegram_bot.get_file(file_id)
         file_path = file.file_path
-        await telegram_bot.download_file(file_path, 'voice_message/'+str(file.file_id)+'.oga')
+        await telegram_bot.download_file(file_path, 'downloads/voice_message/'+str(file.file_id)+'.oga')
         
-        proxy['file_path_sr'] = 'voice_message/'+str(file.file_id)
+        proxy['file_path_sr'] = 'downloads/voice_message/'+str(file.file_id)
         proxy['message_id_sr'] = msg.message_id
         proxy['chat_id_sr'] = msg.chat.id
 

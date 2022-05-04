@@ -19,7 +19,7 @@ def get_video_id(url):
 
 
 def download_video(url, video_id):    
-    path = 'tiktok_download/'+ video_id + '.mp4'
+    path = 'downloads/tiktok/'+ video_id + '.mp4'
     tikmate().get_media(url)[0].download(path)
 
 

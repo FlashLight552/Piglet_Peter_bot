@@ -5,7 +5,7 @@ from function.tiktok_download import *
 
 async def tk_video_sender(message : types.message):
     video_id = str(message['from']['id'])
-    file_path = 'tiktok_download/'+str(video_id)+'.mp4'
+    file_path = 'downloads/tiktok/'+str(video_id)+'.mp4'
 
     download_video(str(message.text), video_id)
     await message.reply_video(open(file_path, 'rb'), disable_notification=True)

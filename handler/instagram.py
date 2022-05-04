@@ -1,5 +1,5 @@
 from aiogram import types, Dispatcher
-from function.insta_dl import instagram_downloader
+from function.instagram import instagram_downloader
 import glob
 import os
 
@@ -12,8 +12,8 @@ async def inst_dl(message: types.Message):
     
     else:
         await types.ChatActions.upload_document()
-        file_jpg = glob.glob(fr'insta_dl/{file}*.jpg')
-        file_mp4 = glob.glob(fr'insta_dl/{file}*.mp4') 
+        file_jpg = glob.glob(fr'downloads/instagram/{file}*.jpg')
+        file_mp4 = glob.glob(fr'downloads/instagram/{file}*.mp4') 
         media = types.MediaGroup()
         
         if file_jpg:
@@ -24,10 +24,10 @@ async def inst_dl(message: types.Message):
             for item in file_mp4:
                 media.attach_video(open(item, 'rb'))                        
         
-        await message.answer_media_group(media, disable_notification=True)
+        await message.reply_media_group(media, disable_notification=True)
         await msg.delete()   
 
-        for item in glob.glob(fr'insta_dl/{file}*'):
+        for item in glob.glob(fr'downloads/instagram/{file}*'):
             os.remove(item)
  
 def intdl_hendler(dp: Dispatcher):

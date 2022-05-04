@@ -57,7 +57,7 @@ async def listen(call: types.CallbackQuery):
         await call.message.edit_text(text, reply_markup=wait_inline)
         lang = language_cheker(text)
         result = gTTS(text=text, lang=lang, slow=False)
-        path = 'voice_message/'+str(call.message.message_id) + '_' + str(call.message.chat.id) + '.mp3'
+        path = 'downloads/voice_message/'+str(call.message.message_id) + '_' + str(call.message.chat.id) + '.mp3'
         result.save(path) 
         await call.message.answer_voice(open(path, 'rb'), disable_notification=True)
         os.remove(path)

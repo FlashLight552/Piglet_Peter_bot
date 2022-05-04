@@ -2,7 +2,7 @@ from aiogram.utils import executor
 import logging
 
 from create_bot import dp
-from handler import insta_dl, tiktok, start, speech_recognition, translate, tts_googl
+from handler import instagram, tiktok, start, speech_recognition, translate, tts_google
 
 
 # Логи
@@ -13,8 +13,8 @@ start.handlers_start(dp)
 tiktok.handlers_tiktok(dp)
 speech_recognition.handlers_sr(dp)
 translate.handlers_translate(dp)
-tts_googl.handlers_tts_google(dp)
-insta_dl.intdl_hendler(dp)
+tts_google.handlers_tts_google(dp)
+instagram.intdl_hendler(dp)
 
 
 # Старт -

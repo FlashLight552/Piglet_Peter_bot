@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
-from aiogram.dispatcher.fsm.context import FSMContext
-from aiogram.dispatcher.fsm.state import State, StatesGroup
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
 
 from gtts import gTTS
 import os
@@ -20,7 +20,7 @@ async def get_tts(message : types.message, state: FSMContext):
         text = message.text
         lang = language_cheker(text)
         result = gTTS(text=text, lang=lang, slow=False)
-        path = 'voice_message/'+str(message.message_id) + '_' + str(message.chat.id) + '.mp3'
+        path = 'downloads/voice_message/'+str(message.message_id) + '_' + str(message.chat.id) + '.mp3'
         result.save(path) 
         await message.answer_voice(open(path, 'rb'), disable_notification=True)
         os.remove(path)
@@ -29,5 +29,5 @@ async def get_tts(message : types.message, state: FSMContext):
     await state.finish()
 
 def handlers_tts_google(dp: Dispatcher):
-    dp.register_message(tts_request, commands=['say'])
-    dp.register_message(get_tts, state=Form.tts)
+    dp.register_message_handler(tts_request, commands=['say'])
+    dp.register_message_handler(get_tts, state=Form.tts)
