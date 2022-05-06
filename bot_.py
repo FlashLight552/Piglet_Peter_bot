@@ -1,8 +1,8 @@
 from aiogram import Bot, Dispatcher
-from data.config import token
+from data.config import TELEGRAM_TOKEN
 
 
-telegram_bot = Bot(token=token, parse_mode="HTML")
+telegram_bot = Bot(token=TELEGRAM_TOKEN, parse_mode="HTML")
 dp = Dispatcher()
 
 

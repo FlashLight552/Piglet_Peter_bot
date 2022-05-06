@@ -13,7 +13,7 @@ start.handlers_start(dp)
 tiktok.handlers_tiktok(dp)
 speech_recognition.handlers_sr(dp)
 translate.handlers_translate(dp)
-tts_google.handlers_tts_google(dp)
+tts_google.handlers_tts_google(dp)  
 instagram.intdl_hendler(dp)
 
 
