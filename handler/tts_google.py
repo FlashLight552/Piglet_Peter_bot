@@ -39,28 +39,28 @@ async def get_tts(message : types.message, state: FSMContext):
 
 async def inline_tts(inline_query: InlineQuery, state: FSMContext):
     text = inline_query.query or 'echo'
-    async with state.proxy() as proxy:
-        if 'language' in proxy:
-            lang = proxy['language']
-        else:
-            lang = 'ru'
+    if text != 'echo':
+        async with state.proxy() as proxy:
+            if 'language' in proxy:
+                lang = proxy['language']
+            else:
+                lang = 'ru'
 
-    result = gTTS(text=text, lang=lang, slow=False)
-    path = 'downloads/voice_message/'+str(inline_query.id) + '_' + str(inline_query.from_user.id) + '.mp3'
-    result.save(path) 
+        result = gTTS(text=text, lang=lang, slow=False)
+        path = 'downloads/voice_message/'+str(inline_query.id) + '_' + str(inline_query.from_user.id) + '.mp3'
+        result.save(path) 
 
-    result_id: str = hashlib.md5(text.encode()).hexdigest()
-    storage = await telegram_bot.send_voice(FILES_STORAGE_GROUP, open(path, 'rb'))
-    os.remove(path)
-    
-
-    item = InlineQueryResultCachedVoice(
-        title = 'Попизделкин 2.0',
-        id = result_id,
-        voice_file_id = storage.voice.file_id,
-
-    )
-    await inline_query.answer([item], cache_time=3, switch_pm_text='Сменить язык', switch_pm_parameter='language')
+        result_id: str = hashlib.md5(text.encode()).hexdigest()
+        storage = await telegram_bot.send_voice(FILES_STORAGE_GROUP, open(path, 'rb'))
+        os.remove(path)
+        
+        item = InlineQueryResultCachedVoice(
+            title = 'Попизделкин 2.0',
+            id = result_id,
+            voice_file_id = storage.voice.file_id,
+        )
+        
+        await inline_query.answer([item], cache_time=3, switch_pm_text='Сменить язык', switch_pm_parameter='language')
    
 
 

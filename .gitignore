@@ -30,6 +30,7 @@ MANIFEST
 /data/session-*
 /models/models.zip
 /data/config.py
+/db/fsm_data.json
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
