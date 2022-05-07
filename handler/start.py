@@ -1,8 +1,5 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from matplotlib.pyplot import text
-from requests import delete
 
 from data.btn import *
 

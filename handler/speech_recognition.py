@@ -2,10 +2,8 @@ import subprocess
 import os
 
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.dispatcher.filters import Text
-
 from aiogram import types, Dispatcher
+
 from create_bot import telegram_bot
 from function.google_recognize import google_rec
 from function.vosk_ffmpeg import vosk_ffmpeg_model
@@ -21,7 +19,7 @@ async def voice_message(message:types.message, state: FSMContext):
                 os.remove(proxy['file_path_sr']+'.oga')  
             except: pass   
     
-        msg = await message.reply('На каком языке говорят?', reply_markup=lang_voice_inline, disable_notification=True)
+        msg = await message.reply('На каком языке говорят? Или воспользуйся функцией распознавания музыки Shazam.', reply_markup=lang_voice_inline, disable_notification=True)
         # download voice message
         file_id = message.voice.file_id
         file = await telegram_bot.get_file(file_id)
