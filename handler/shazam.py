@@ -1,13 +1,15 @@
 from aiogram import types, Dispatcher
-from shazamio import Shazam
-from youtube_search import YoutubeSearch
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.dispatcher import FSMContext
-from data.btn import wait_inline
+
 import os
+from shazamio import Shazam
+from youtube_search import YoutubeSearch
+
+from data.btn import wait_inline
 
 
-async def shazam(src_filename):
+async def shazam_recog(src_filename):
     shazam = Shazam()
     out = await shazam.recognize_song(src_filename)
     lyrics = ''
@@ -32,13 +34,14 @@ async def shazam(src_filename):
         subtitle = title = images = yt_url = lyrics = 'empty'
         return subtitle,title,images,yt_url,lyrics
 
-
-async def shazam_serch(call: types.CallbackQuery, state: FSMContext):
+ 
+async def shazam_serch_by_recog(call: types.CallbackQuery, state: FSMContext):
     await call.message.edit_text(call.message.text, reply_markup=wait_inline)
-    
+    await types.ChatActions.typing()
+
     async with state.proxy() as proxy:
         src_filename = proxy['file_path_sr']+'.oga'
-        subtitle,title,images,yt_url,lyrics = await shazam(src_filename)
+        subtitle,title,images,yt_url,lyrics = await shazam_recog(src_filename)
         
         if subtitle != 'empty':
             proxy['lyrics'] = lyrics
@@ -63,8 +66,6 @@ async def lyrics(call: types.CallbackQuery, state: FSMContext):
     await call.message.answer(lyrics)
 
 
-
 def handlers_shazam(dp: Dispatcher):
-    dp.register_message_handler(shazam_serch, commands=['sh'])
-    dp.register_callback_query_handler(shazam_serch, text='shazam')
+    dp.register_callback_query_handler(shazam_serch_by_recog, text='shazam')
     dp.register_callback_query_handler(lyrics, text='lyrics')

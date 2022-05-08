@@ -20,6 +20,8 @@ async def tts_request(message : types.message):
 
 async def get_tts(message : types.message, state: FSMContext):
     try:
+        await types.ChatActions.record_voice()
+        
         text = message.text
         lang = language_cheker(text)
         result = gTTS(text=text, lang=lang, slow=False)

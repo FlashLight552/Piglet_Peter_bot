@@ -5,6 +5,8 @@ import os
 
 async def inst_dl(message: types.Message):
     msg = await message.answer('Загрузка поста.', disable_notification=True)
+    await types.ChatActions.upload_document()
+
     file = instagram_downloader(message.text)
     
     if file.startswith('Login error:') or file.startswith('Access denied:'):

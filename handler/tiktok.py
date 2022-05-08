@@ -7,6 +7,7 @@ async def tk_video_sender(message : types.message):
     video_id = str(message['from']['id'])
     file_path = 'downloads/tiktok/'+str(video_id)+'.mp4'
 
+    await types.ChatActions.upload_video()
     download_video(str(message.text), video_id)
     await message.reply_video(open(file_path, 'rb'), disable_notification=True)
     os.remove(file_path)

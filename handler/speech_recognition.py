@@ -35,12 +35,12 @@ async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as proxy:
         proxy['data_sr'] = call.data
     
+    await types.ChatActions.typing()
     src_filename = proxy['file_path_sr']+'.oga' 
     dest_filename = proxy['file_path_sr']+'.wav' 
     sample_rate=16000
     
     subprocess.run(['ffmpeg', '-i', src_filename,'-ar', str(sample_rate), '-ac', '1', '-af', 'highpass=f=200, lowpass=f=3000', dest_filename], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
     result = ''
     error_text = 'Я не понимаю! Говорите текст четко в микрофон. Или свяжитесь с @ShtefanNein.'
 
@@ -72,11 +72,13 @@ async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
 
 
 async def translate_recog_text(call: types.CallbackQuery, state: FSMContext):
-    await call.message.answer('На какой язык будем переводить?', reply_markup=lang_select, disable_notification=True)
+    msg = await call.message.answer('На какой язык будем переводить?', reply_markup=lang_select, disable_notification=True)
     async with state.proxy() as proxy:
-        proxy['call.message.text'] = call.message.text
-    # await call.message.edit_text(proxy['call.message.text'], reply_markup=ready_inline)  
-    await call.message.edit_text(proxy['call.message.text'], reply_markup=None)  
+        proxy['message_text'] = call.message.text
+        proxy['chat_id'] = msg.chat.id
+        proxy['message_id'] = msg.message_id
+
+    await call.message.edit_text(proxy['message_text'], reply_markup=ready_inline)  
 
 
 def handlers_sr(dp: Dispatcher):

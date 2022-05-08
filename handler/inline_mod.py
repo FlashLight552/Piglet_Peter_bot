@@ -1,6 +1,6 @@
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
-from aiogram.types import InlineQuery, InlineQueryResultCachedVoice, InlineQueryResultCachedVideo, InputTextMessageContent
+from aiogram.types import InlineQuery, InlineQueryResultCachedVoice, InlineQueryResultCachedVideo
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import hashlib    
 from gtts import gTTS

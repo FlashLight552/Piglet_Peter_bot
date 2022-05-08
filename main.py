@@ -10,13 +10,17 @@ logging.basicConfig(level=logging.INFO)
 
 # Коннект хендлеров
 start.handlers_start(dp)
+
 tiktok.handlers_tiktok(dp)
-speech_recognition.handlers_sr(dp)
-translate.handlers_translate(dp)
-tts_google.handlers_tts_google(dp)  
 instagram.intdl_hendler(dp)
-inline_mod.handlers_inline_mod(dp)
+
+speech_recognition.handlers_sr(dp)
+tts_google.handlers_tts_google(dp)
 shazam.handlers_shazam(dp)
+
+inline_mod.handlers_inline_mod(dp)
+translate.handlers_translate(dp)
+
 
 # Старт -
 if __name__ == '__main__':
