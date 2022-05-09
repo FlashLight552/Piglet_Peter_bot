@@ -6,3 +6,8 @@ FILES_STORAGE_GROUP = ''
 INST_USER = ''
 INST_PASSWD = ''
 INST_USERNAME = ''
+
+
+# discord
+DISCORD_TOKEN = ''
+CHAT_ID = ''
