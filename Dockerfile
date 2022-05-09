@@ -1,13 +1,13 @@
 FROM python:3.10.4
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
+RUN apt-get -y update && apt-get -y upgrade && apt-get install -y ffmpeg
+
+RUN python3 -m venv ./venv
 COPY requirements.txt ./
 
-RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get -y update
-RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
+RUN . /venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
