@@ -1,8 +1,8 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import CommandStart
-from data.btn import *
-from create_bot import telegram_bot
+from config.btn import *
+from config.create_bot import telegram_bot
 
 
 async def start(message: types.message):

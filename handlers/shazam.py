@@ -6,7 +6,7 @@ import os
 from shazamio import Shazam
 from youtube_search import YoutubeSearch
 
-from data.btn import wait_inline
+from config.btn import wait_inline
 
 
 async def shazam_recog(src_filename):

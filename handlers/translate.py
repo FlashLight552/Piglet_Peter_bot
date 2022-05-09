@@ -4,9 +4,9 @@ from aiogram.dispatcher import FSMContext
 from gtts import gTTS
 import os
 
-from function.google_translate import google_translate, language_cheker
-from create_bot import telegram_bot
-from data.btn import *
+from functions.google_translate import google_translate, language_cheker
+from config.create_bot import telegram_bot
+from config.btn import *
 
 
 

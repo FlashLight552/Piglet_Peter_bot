@@ -1,8 +1,8 @@
 from aiogram.utils import executor
 import logging
 
-from create_bot import dp
-from handler import instagram, tiktok, start, speech_recognition,\
+from config.create_bot import dp
+from handlers import instagram, tiktok, start, speech_recognition,\
              translate, tts_google, inline_mod, shazam, discord_music
 
 

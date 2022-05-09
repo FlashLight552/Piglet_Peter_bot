@@ -1,8 +1,8 @@
 import requests
 import threading #just in case
-from function.zenon.messages.messages import Messages
-from function.zenon.actions.reactions import Reaction
-from function.zenon.actions.server import Server
+from functions.zenon.messages.messages import Messages
+from functions.zenon.actions.reactions import Reaction
+from functions.zenon.actions.server import Server
 
 class Client(object):
     def __init__(self, token, discord = "https://discordapp.com/api/v6/", proxy = None):

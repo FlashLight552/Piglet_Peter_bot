@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 import os.path
-from function.tiktok_download import *
+from functions.tiktok_download import *
 
 
 async def tk_video_sender(message : types.message):

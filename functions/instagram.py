@@ -1,5 +1,5 @@
 import instaloader
-import data.config
+import config.config
 
 def instagram_downloader(url):
     raw_url = url.split('/')
@@ -13,9 +13,9 @@ def instagram_downloader(url):
                                 user_agent=user_agent, dirname_pattern = 'downloads/instagram')
          
     try:
-        L.load_session_from_file(username=data.config.INST_USERNAME, filename=f'data/session-{data.config.INST_USERNAME}')
+        L.load_session_from_file(username=config.config.INST_USERNAME, filename=f'config/session-{config.config.INST_USERNAME}')
     except:
-        L.login(data.config.INST_USER, data.config.INST_PASSWD)   
+        L.login(config.config.INST_USER, config.config.INST_PASSWD)   
 
     try:
         post = instaloader.Post.from_shortcode(L.context, shortcode)
@@ -23,5 +23,5 @@ def instagram_downloader(url):
     except:
         shortcode = 'Access denied: закрытый аккаунт.' 
     
-    L.save_session_to_file(rf"data/session-{data.config.INST_USERNAME}")
+    L.save_session_to_file(rf"config/session-{config.config.INST_USERNAME}")
     return shortcode

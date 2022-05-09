@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
-from data.config import CHAT_ID
-from function.zenon import zenon
+from config.config import CHAT_ID
+from functions.zenon import zenon
 import asyncio
 
 async def discord_token(message:types.Message, state:FSMContext):

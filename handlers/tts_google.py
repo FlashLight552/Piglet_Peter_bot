@@ -5,8 +5,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from gtts import gTTS
 import os
 
-from function.google_translate import language_cheker
-from data.btn import cancel_inline
+from functions.google_translate import language_cheker
+from config.btn import cancel_inline
 
 
 class Form(StatesGroup):

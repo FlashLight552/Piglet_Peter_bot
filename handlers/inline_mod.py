@@ -8,9 +8,9 @@ import os
 import re
 
 
-from create_bot import telegram_bot
-from data.config import FILES_STORAGE_GROUP
-from function.tiktok_download import *
+from config.create_bot import telegram_bot
+from config.config import FILES_STORAGE_GROUP
+from functions.tiktok_download import *
 
 tiktok_pattern = re.compile('(https?:\/\/)?(vm.|www.)?(tiktok.com\/)')
 

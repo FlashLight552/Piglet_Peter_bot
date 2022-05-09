@@ -4,11 +4,11 @@ import os
 from aiogram.dispatcher import FSMContext
 from aiogram import types, Dispatcher
 
-from create_bot import telegram_bot
-from function.google_recognize import google_rec
-from function.vosk_ffmpeg import vosk_ffmpeg_model
+from config.create_bot import telegram_bot
+from functions.google_recognize import google_rec
+from functions.vosk_ffmpeg import vosk_ffmpeg_model
 
-from data.btn import *
+from config.btn import *
 
 
 async def voice_message(message:types.message, state: FSMContext):

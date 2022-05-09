@@ -1,6 +1,8 @@
+# telegram
 TELEGRAM_TOKEN = ''   
 OWNER = ''
 FILES_STORAGE_GROUP = ''
+
 
 # instagram
 INST_USER = ''

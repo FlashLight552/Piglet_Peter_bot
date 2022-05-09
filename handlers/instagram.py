@@ -1,5 +1,5 @@
 from aiogram import types, Dispatcher
-from function.instagram import instagram_downloader
+from functions.instagram import instagram_downloader
 import glob
 import os
 
