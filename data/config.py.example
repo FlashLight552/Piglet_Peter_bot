@@ -9,5 +9,4 @@ INST_USERNAME = ''
 
 
 # discord
-DISCORD_TOKEN = ''
 CHAT_ID = ''
