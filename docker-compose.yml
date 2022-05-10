@@ -4,9 +4,7 @@ services:
   piter_bot:
     build: 
       context: .
-      dockerfile: Dockerfile
-    networks:
-      - app  
+      dockerfile: Dockerfile 
     volumes:
       - ./config/db:/usr/src/app/config/db
  
@@ -20,7 +18,5 @@ services:
       - MARIADB_PASSWORD=piter
     volumes:
       - ./data:/var/lib/mysql
-    networks:
-      - app  
     expose:
       - 3306
