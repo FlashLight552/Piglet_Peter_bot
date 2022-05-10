@@ -7,7 +7,7 @@ from config.config import TELEGRAM_TOKEN
 from functions.sql import Database
 
 telegram_bot = Bot(token=TELEGRAM_TOKEN)
-storage = JSONStorage(Path.cwd() / "config/db/fsm_data.json")
+storage = JSONStorage(Path.cwd() / "config/fsm_data.json")
 dp = Dispatcher(telegram_bot, storage=storage)
     
 async def on_startup(dp):
