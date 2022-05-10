@@ -36,7 +36,7 @@ async def create(message: types.Message):
 async def info(message: types.Message):
     db = Database()
     token = db.discord_token_request(message.from_user.id)
-    msg = await message.answer(f'Discord chat id: {fmt.hspoiler(DISCORD_CHAT_ID)}\nDiscord token: {fmt.hspoiler(token)}')
+    msg = await message.answer(f'Discord chat id: {fmt.hspoiler(DISCORD_CHAT_ID)}\nDiscord token: {fmt.hspoiler(token)}',types.ParseMode.HTML)
     await asyncio.sleep(20)
     await msg.delete()
 

@@ -12,7 +12,7 @@ INST_USERNAME = os.environ.get('INST_USERNAME')
 
 
 # discord
-DISCORD_CHAT_ID = os.environ.get('CHAT_ID')
+DISCORD_CHAT_ID = os.environ.get('DISCORD_CHAT_ID')
 
 
 # Mariadb
