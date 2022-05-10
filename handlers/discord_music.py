@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 import aiogram.utils.markdown as fmt
-from config.config import CHAT_ID
+from config.config import DISCORD_CHAT_ID
 from functions.zenon import zenon
 from functions.sql import Database
 import asyncio
@@ -23,7 +23,7 @@ async def discord_music_sender(message: types.Message):
     if token:
         command = message.text
         client = zenon.Client(token)
-        client.send_message(CHAT_ID, f'!! {command}')
+        client.send_message(DISCORD_CHAT_ID, f'!! {command}')
     else:
         await message.answer('Для начала добавь свой Discord token: \n/discord_token "TOKEN"')   
 

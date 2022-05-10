@@ -1,22 +1,23 @@
-# telegram
-TELEGRAM_TOKEN = ''   
-OWNER = ''
-FILES_STORAGE_GROUP = ''
+import os
+
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')   
+OWNER = os.environ.get('OWNER') 
+FILES_STORAGE_GROUP = os.environ.get('FILES_STORAGE_GROUP')
 
 
 # instagram
-INST_USER = ''
-INST_PASSWD = ''
-INST_USERNAME = ''
+INST_USER = os.environ.get('INST_USER')
+INST_PASSWD = os.environ.get('INST_PASSWD')
+INST_USERNAME = os.environ.get('INST_USERNAME')
 
 
 # discord
-CHAT_ID = ''
+DISCORD_CHAT_ID = os.environ.get('CHAT_ID')
 
 
 # Mariadb
-MARIA_USER = ''
-MARIA_PASSWD = ''
-MARIA_HOST = ''
-MARIA_PORT = ''
-MARIA_DB = ''
+MARIA_USER = os.environ.get('MARIA_USER')
+MARIA_PASSWD = os.environ.get('MARIA_PASSWD')
+MARIA_HOST = os.environ.get('MARIA_HOST')
+MARIA_PORT = os.environ.get('MARIA_PORT')
+MARIA_DB = os.environ.get('MARIA_DB')

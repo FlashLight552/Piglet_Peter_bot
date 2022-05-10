@@ -14,7 +14,8 @@ services:
       - INST_USER= 
       - INST_PASSWD= 
       - INST_USERNAME= 
-      - DISCORD_CHAT_ID=
+      - CHAT_ID= 
+      - DISCORD_TOKEN= 
       - MARIA_USER= 
       - MARIA_PASSWD= 
       - MARIA_HOST=mariabd
