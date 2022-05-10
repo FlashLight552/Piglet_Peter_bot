@@ -5,12 +5,14 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-  
+    volumes:
+      - ./config/db:/usr/src/app/config/db
+ 
   mariabd:
     image: mariadb
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=qwegrhnghkjfhghedbdfxg546yrtbdfghfhjdf
+      - MARIADB_RANDOM_ROOT_PASSWORD=yes
       - MARIADB_DATABASE=piter
       - MARIADB_USER=piter
       - MARIADB_PASSWORD=piter

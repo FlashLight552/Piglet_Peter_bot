@@ -25,6 +25,7 @@ async def help_btn(call: types.CallbackQuery):
     
     await call.message.answer(text, disable_notification=True)
 
+
 async def language_selector(call: types.callback_query, state: FSMContext):
     async with state.proxy() as proxy:
         lang = str(call.data)

@@ -1,7 +1,7 @@
 from aiogram.utils import executor
 import logging
 
-from config.create_bot import dp
+from config.create_bot import dp, on_startup, on_shutdown
 from handlers import instagram, tiktok, start, speech_recognition,\
              translate, tts_google, inline_mod, shazam, discord_music
 
@@ -26,4 +26,4 @@ translate.handlers_translate(dp)
 
 # Старт -
 if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup, on_shutdown=on_shutdown)
