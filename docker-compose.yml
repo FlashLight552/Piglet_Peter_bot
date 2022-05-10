@@ -5,6 +5,8 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+    networks:
+      - app  
     volumes:
       - ./config/db:/usr/src/app/config/db
  
@@ -18,5 +20,7 @@ services:
       - MARIADB_PASSWORD=piter
     volumes:
       - ./data:/var/lib/mysql
-    ports:
-      - 3306:3306
+    networks:
+      - app  
+    expose:
+      - 3306
