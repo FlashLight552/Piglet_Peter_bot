@@ -12,3 +12,11 @@ INST_USERNAME = ''
 
 # discord
 CHAT_ID = ''
+
+
+# Mariadb
+MARIA_USER = ''
+MARIA_PASSWD = ''
+MARIA_HOST = ''
+MARIA_PORT = ''
+MARIA_DB = ''

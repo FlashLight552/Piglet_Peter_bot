@@ -1,0 +1,18 @@
+version: '3'
+services:
+  piter_bot:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+  mariabd:
+    image: mariadb
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwegrhnghkjfhghedbdfxg546yrtbdfghfhjdf
+      - MARIADB_DATABASE=piter
+      - MARIADB_USER=piter
+      - MARIADB_PASSWORD=piter
+    volumes:
+      - ./data:/var/lib/mariabd
+    ports:
+      - 3306:3306
