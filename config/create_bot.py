@@ -17,5 +17,6 @@ async def on_startup(dp):
      print('[+] Tables was created')
 
 async def on_shutdown(dp):
-    await dp.storage.close()
-    print('[+] FMS storage was saved')
+     await dp.storage.close()
+     await dp.storage.wait_closed()
+     print('[+] FMS storage was saved')
