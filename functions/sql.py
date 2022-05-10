@@ -1,5 +1,6 @@
 import sqlite3
 import mariadb
+import sys
 
 from config.config import MARIA_PORT, MARIA_USER, MARIA_PASSWD, MARIA_HOST, \
                             MARIA_DB
@@ -16,8 +17,10 @@ class Database:
                                 )
             self.cursor = self.connection.cursor()
         
-        except:
-            pass
+        
+        except mariadb.Error as e:
+            print(f"Error connecting to MariaDB Platform: {e}")
+            sys.exit(1)
             # self.connection = sqlite3.connect(db_file)
             # self.cursor = self.connection.cursor()
 
