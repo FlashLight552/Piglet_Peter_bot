@@ -5,6 +5,9 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile 
+    depends_on:
+    - 'mariabd'
+    command: ["./wait-for-it.sh", "db:3306", "--", "python", "app.py"]  
     volumes:
       - ./config/db:/usr/src/app/config/db
  
