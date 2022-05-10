@@ -28,6 +28,21 @@ async def discord_music_sender(message: types.Message):
         await message.answer('Для начала добавь свой Discord token: \n/discord_token "TOKEN"')   
 
 
+async def create(message: types.Message):
+    db = Database()
+    db.discord_token_create_table()
+    await message.answer('[+]', disable_notification=True)
+
+async def info(message: types.Message):
+    db = Database()
+    token = db.discord_token_request(message.from_user.id)
+    msg = await message.answer(f'Discord chat id: {fmt.hspoiler(DISCORD_CHAT_ID)}\nDiscord token: {fmt.hspoiler(token)}')
+    await asyncio.sleep(20)
+    await msg.delete()
+
+
 def discord_handler(dp: Dispatcher):
     dp.register_message_handler(discord_music_sender, regexp='(https:\/\/)?(www.|music.|youtu.|m.)?(youtube.com|be)', chat_type='private')
     dp.register_message_handler(discord_token, commands=['discord_token'])
+    dp.register_message_handler(create, commands=['ds_create'])
+    dp.register_message_handler(info, commands=['ds_info'])
