@@ -9,7 +9,7 @@ class Database:
                                 user=MARIA_USER,
                                 password=MARIA_PASSWD,
                                 host=MARIA_HOST,
-                                port=MARIA_PORT,
+                                port=int(MARIA_PORT),
                                 database=MARIA_DB
                                 )
             self.cursor = self.connection.cursor()
