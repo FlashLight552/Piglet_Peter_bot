@@ -4,7 +4,7 @@
 /models/models.zip
 /config/session-*
 /config/config.py
-/config/db/fsm_data.json
+/config/fsm_data.json
 /docker-compose.yml
 
 # Byte-compiled / optimized / DLL files

@@ -28,6 +28,7 @@ lang_voice_inline = InlineKeyboardMarkup().add(
     InlineKeyboardButton(text='English', callback_data='en-US'),
     InlineKeyboardButton(text='Русский', callback_data='ru-RU'),
     InlineKeyboardButton(text='Shazam', callback_data='shazam'),
+    InlineKeyboardButton(text='Voice assistant', callback_data='voice_assistant')
 )
 
 

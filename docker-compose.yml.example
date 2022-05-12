@@ -20,6 +20,7 @@ services:
       - MARIA_HOST=mariabd
       - MARIA_PORT=3306
       - MARIA_DB= 
+      - OPEN_WEATHER_TOKEN=
     volumes:
       - ./config:/usr/src/app/config/
  

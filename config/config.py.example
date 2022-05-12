@@ -21,3 +21,6 @@ MARIA_PASSWD = os.environ.get('MARIA_PASSWD')
 MARIA_HOST = os.environ.get('MARIA_HOST')
 MARIA_PORT = os.environ.get('MARIA_PORT')
 MARIA_DB = os.environ.get('MARIA_DB')
+
+# openweather
+OPEN_WEATHER_TOKEN = os.environ.get('OPEN_WEATHER_TOKEN')

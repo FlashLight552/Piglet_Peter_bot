@@ -7,6 +7,7 @@ from aiogram import types, Dispatcher
 from config.create_bot import telegram_bot
 from functions.google_recognize import google_rec
 from functions.vosk_ffmpeg import vosk_ffmpeg_model
+from functions.voice_assistant import assistent
 
 from config.btn import *
 
@@ -34,41 +35,47 @@ async def voice_message(message:types.message, state: FSMContext):
 async def sel_lang_and_recog(call: types.CallbackQuery, state: FSMContext):
     async with state.proxy() as proxy:
         proxy['data_sr'] = call.data
+        if proxy['data_sr'] == 'voice_assistant':
+            proxy['data_sr'] = 'ru-RU'
     
     await types.ChatActions.typing()
-    src_filename = proxy['file_path_sr']+'.oga' 
+    src_filename = proxy['file_path_sr']+'.oga'
     dest_filename = proxy['file_path_sr']+'.wav' 
     sample_rate=16000
     
     subprocess.run(['ffmpeg', '-i', src_filename,'-ar', str(sample_rate), '-ac', '1', '-af', 'highpass=f=200, lowpass=f=3000', dest_filename], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     result = ''
     error_text = 'Я не понимаю! Говорите текст четко в микрофон. Или свяжитесь с @ShtefanNein.'
-
-    try : 
-        result = google_rec(dest_filename, proxy['data_sr'])
-        
-    except Exception as error: print(error)      
-        
-    if not result:
-        try : 
-            result = vosk_ffmpeg_model(src_filename, proxy['data_sr'])
-            
-        except Exception as error: print(error)  
-    if not result:        
-        result = error_text
-
-    # Message send
-    await call.message.delete()  
-    if result != error_text:   
-        await call.message.answer(result, reply_markup=translate_ask_inline, disable_notification=True)
-    else:
-        await call.message.answer(result, disable_notification=True)    
     
-    # Очистка
-    try: 
+    try :
+        result = google_rec(dest_filename, proxy['data_sr'])
+    except Exception as error: print(error)
+    if not result:
+        try :
+            result = vosk_ffmpeg_model(src_filename, proxy['data_sr'])
+        except Exception as error: print(error)
+    if not result:
+        result = error_text
+    try:
         os.remove(proxy['file_path_sr']+'.oga')
         os.remove(proxy['file_path_sr']+'.wav')
     except: pass
+    await call.message.delete()
+
+    if result != error_text:
+        if call.data == 'voice_assistant':
+            assistent_result = assistent(result)
+            if assistent_result:
+                await call.message.answer(assistent_result, disable_notification=True, parse_mode=types.ParseMode.HTML)
+            else:
+                await call.message.answer(  'Список комманд:\n'
+                                            '- Youtube или видео + название. [Видео милые котики]\n'\
+                                            '- Погода + город + страна. [Погода Киев Украина]\n'\
+                                            '- Подбрось монетку.')
+        else:
+            await call.message.answer(result, reply_markup=translate_ask_inline, disable_notification=True)  
+    else:
+        await call.message.answer(result, disable_notification=True)
 
 
 async def translate_recog_text(call: types.CallbackQuery, state: FSMContext):
@@ -87,5 +94,6 @@ def handlers_sr(dp: Dispatcher):
     dp.register_callback_query_handler(sel_lang_and_recog, text='ru-RU')
     dp.register_callback_query_handler(sel_lang_and_recog, text='uk-UA')
     dp.register_callback_query_handler(sel_lang_and_recog, text='en-US')
-
+    
+    dp.register_callback_query_handler(sel_lang_and_recog, text='voice_assistant')
     dp.register_callback_query_handler(translate_recog_text, text='translate_ask')

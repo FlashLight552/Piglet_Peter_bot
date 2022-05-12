@@ -1,5 +1,4 @@
 from aiogram import Dispatcher
-from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineQuery, InlineQueryResultCachedVoice, InlineQueryResultCachedVideo
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import hashlib    
@@ -11,13 +10,17 @@ import re
 from config.create_bot import telegram_bot
 from config.config import FILES_STORAGE_GROUP
 from functions.tiktok_download import *
+from functions.sql import Database
+
 
 tiktok_pattern = re.compile('(https?:\/\/)?(vm.|www.)?(tiktok.com\/)')
 
 
-async def inline_tts(inline_query: InlineQuery, state: FSMContext):
+async def inline_tts(inline_query: InlineQuery):
     text = inline_query.query or 'echo'
     description = 'Жми сюда для отправки.'
+    db = Database()
+
     if tiktok_pattern.match(text):
             url = text.split('?')[0]
             video_id = inline_query.from_user.id
@@ -27,7 +30,7 @@ async def inline_tts(inline_query: InlineQuery, state: FSMContext):
             try:
                 os.remove(file_path)
             except:
-                pass   
+                pass
             result_id: str = hashlib.md5(url.encode()).hexdigest()
             item = InlineQueryResultCachedVideo(
                 id=result_id,
@@ -40,11 +43,10 @@ async def inline_tts(inline_query: InlineQuery, state: FSMContext):
     
     else:
         if text != 'echo':
-            async with state.proxy() as proxy:
-                if 'language' in proxy:
-                    lang = proxy['language']
-                else:
-                    lang = 'ru'
+            lang = db.user_data_request(inline_query.from_user.id, 'lang_tts')
+            if not lang:
+                lang = 'ru'
+
             result = gTTS(text=text, lang=lang, slow=False)
             path = f'downloads/voice_message/{inline_query.id}_{inline_query.from_user.id}.mp3'
             result.save(path) 
@@ -56,7 +58,7 @@ async def inline_tts(inline_query: InlineQuery, state: FSMContext):
                 id = result_id,
                 voice_file_id = storage.voice.file_id,
             )
-            await inline_query.answer([item], cache_time=300, switch_pm_text='Сменить язык', switch_pm_parameter='language')
+            await inline_query.answer([item], cache_time=300, switch_pm_text='Сменить язык', switch_pm_parameter='language', is_personal=True)
 
 
 def handlers_inline_mod(dp: Dispatcher):
