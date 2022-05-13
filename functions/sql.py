@@ -23,7 +23,7 @@ class Database:
             self.cursor.execute("""CREATE TABLE IF NOT EXISTS user_data (
                                 user_id INT PRIMARY KEY,
                                 ds_token VARCHAR(100),
-                                lang_bot VARCHAR(20),
+                                lang_assistant VARCHAR(20),
                                 lang_tts VARCHAR(20) 
                                 )""")
             self.connection.commit()

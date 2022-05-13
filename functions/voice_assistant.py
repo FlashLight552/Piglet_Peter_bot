@@ -1,35 +1,25 @@
-from aiogram.utils.markdown import hlink
-from youtube_search import YoutubeSearch
-from googletrans import Translator
-from pyowm import OWM
+import asyncio
 import random
 
-from config.config import OPEN_WEATHER_TOKEN
+from aiogram.utils.markdown import hlink
+
+from youtube_search import YoutubeSearch
+from ytmusicapi import YTMusic
+from googletrans import Translator
+from pyowm import OWM
+
+from functions.zenon import zenon
+from config.config import OPEN_WEATHER_TOKEN, DISCORD_CHAT_ID
+from functions.sql import Database
 
 
-def search_on_google(*args):
-    return 'comming coon'
-
-
-def search_on_youtube(*args):
-    search = YoutubeSearch(f'{args}', max_results=5).to_dict()
-    result = ''
-
-    for item in search:
-        id = item['id']
-        title = item['title']
-        url = f'https://www.youtube.com/watch?v={id}'
-        result += f'{hlink(title, url)}\n'
-    
-    return result
-        
 
 def get_weather(*args):
-    if args[0]:
+    if args[0][1:]:
         try:
-            city = f'{args[0][0]}, {args[0][1]}'
+            city = f'{args[0][1]}, {args[0][2]}'
         except:
-            city = f'{args[0][0]}'
+            city = f'{args[0][1]}'
        
     owm = OWM(OPEN_WEATHER_TOKEN)
     mgr = owm.weather_manager()
@@ -56,30 +46,103 @@ def get_weather(*args):
 
     return weather
 
+
 def toss_coin(*args):
-    coim = ('Орел','Решка')
-    return (random.choice(coim))
+    coin = ('Орел','Решка')
+    return (random.choice(coin))
 
 
-def execute_command_with_name(command_name: str, *args: list):
+def search_on_youtube_music(search):        
+        ytmusic = YTMusic()
+        search_result = ytmusic.search(search, filter='songs')
+        url_list = list()
+        for item in search_result:
+            videoid = item['videoId']
+            url = f'https://music.youtube.com/watch?v={videoid}'
+            url_list.append(url)
+        return url_list
+
+
+def discord_youtube_music_song(*args):    
+    if args[0][1:]:
+        search = ''
+        for item in args[0][1:]:
+            search += f'{item} '
+
+    result = search_on_youtube_music(search)[0]
+    
+    db = Database()
+    token = db.user_data_request(args[0][0], 'ds_token')
+    if token:
+        client = zenon.Client(token)
+        client.send_message(DISCORD_CHAT_ID, f'!! {result}')
+
+        return search
+    else:
+        return 'Для начала добавь свой Discord token: \n/discord_token "TOKEN"'
+
+
+def discord_youtube_music_playlist(*args):    
+    if args[0][1:]:
+        search = ''
+        for item in args[0][1:]:
+            search += f'{item} '
+    result = search_on_youtube_music(search)
+    
+    db = Database()
+    token = db.user_data_request(args[0][0], 'ds_token')
+    if token:
+        client = zenon.Client(token)
+        for i in range(5):
+            item = result[i]
+            client.send_message(DISCORD_CHAT_ID, f'!! {item}')
+            asyncio.sleep(1)
+        return search
+    else: 
+        return 'Для начала добавь свой Discord token: \n/discord_token "TOKEN"'
+
+
+def search_on_youtube(*args):
+    if args[0][1:]:
+        search = ''
+        for item in args[0][1:]:
+            search += f'{item} '
+    
+        search_result = YoutubeSearch(f'{search}', max_results=5).to_dict()
+        result = ''
+        i = 1
+
+        for item in search_result:
+            id = item['id']
+            title = item['title']
+            url = f'https://www.youtube.com/watch?v={id}'
+            result += f'{i}. {hlink(title, url)}\n'
+            i += 1
+        return result
+
+
+def execute_command(command_name: str, *args: list):
     for key in commands.keys():
         if command_name in key:
             return commands[key](*args)
 
 
 commands = {
-    ("search", "google", "гугл", "найди"): search_on_google,
-    ("video", "youtube", "ютуб", "видео"): search_on_youtube,
-    ("weather", "forecast", "погода", "прогноз"): get_weather,
-    ("toss", "мотенка", "монета", "подбрось"): toss_coin,
+    ("video", "youtube", "ютуб", "видео", "відео"): search_on_youtube,
+    ("песня", "song", "трек"): discord_youtube_music_song,
+    ("плейлист", "playlist"): discord_youtube_music_playlist,
+    ("weather", "forecast", "погода", "погода"): get_weather,
+    ("toss", "мотенка", "монета", "подбрось", "монета", "підкинь", "подкинь"): toss_coin,
 }
 
 
-def assistent(voice_input:str):
+def assistant(user_id, voice_input:str):
     split_input = voice_input.split()
     command = split_input[0].lower()
     command_param = split_input[1:]
-    return execute_command_with_name(command, command_param)
+    command_param.insert(0, user_id)
+    return execute_command(command, command_param)
+
 
 
 

@@ -13,7 +13,7 @@ from config.btn import *
 async def message_question(message: types.message, state: FSMContext):
     async with state.proxy() as proxy:
         proxy['message_text'] = message.text
-        msg = await message.answer('На какой язык будем переводить?', reply_markup=lang_select, disable_notification=True) 
+        msg = await message.answer('На какой язык будем переводить?', reply_markup=lang_select_for_translate, disable_notification=True) 
         proxy['chat_id'] = msg.chat.id
         proxy['message_id'] = msg.message_id
 

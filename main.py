@@ -17,7 +17,7 @@ start.handlers_start(dp)
 tiktok.handlers_tiktok(dp)
 instagram.intdl_hendler(dp)
 discord_music.discord_handler(dp)
-
+    
 speech_recognition.handlers_sr(dp)
 tts_google.handlers_tts_google(dp)
 shazam.handlers_shazam(dp)
@@ -26,7 +26,6 @@ inline_mod.handlers_inline_mod(dp)
 translate.handlers_translate(dp)
 
 
-# Старт -
 if __name__ == '__main__':
     asyncio.sleep(10)
     
