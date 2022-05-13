@@ -137,11 +137,14 @@ commands = {
 
 
 def assistant(user_id, voice_input:str):
-    split_input = voice_input.split()
-    command = split_input[0].lower()
-    command_param = split_input[1:]
-    command_param.insert(0, user_id)
-    return execute_command(command, command_param)
+    try:
+        split_input = voice_input.split()
+        command = split_input[0].lower()
+        command_param = split_input[1:]
+        command_param.insert(0, user_id)
+        return execute_command(command, command_param)
+    except:
+        return execute_command(None, None)
 
 
 
