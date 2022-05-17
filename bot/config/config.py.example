@@ -24,3 +24,10 @@ MARIA_DB = os.environ.get('MARIA_DB')
 
 # openweather
 OPEN_WEATHER_TOKEN = os.environ.get('OPEN_WEATHER_TOKEN')
+
+# socket server
+SOCKET_SERVER_IP = os.environ.get('SOCKET_SERVER_IP')
+SOCKET_SERVER_PORT = os.environ.get('SOCKET_SERVER_PORT') 
+
+# webapps url
+WEBAPPS_URL = os.environ.get('WEBAPPS_URL')
