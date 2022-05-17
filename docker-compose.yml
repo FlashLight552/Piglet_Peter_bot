@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  piter_bot:
+    build: 
+      context: .
+      dockerfile: Dockerfile 
+    depends_on:
+    - 'mariabd'
+    environment:
+      - TELEGRAM_TOKEN=   
+      - OWNER=  
+      - FILES_STORAGE_GROUP= 
+      - INST_USER= 
+      - INST_PASSWD= 
+      - INST_USERNAME= 
+      - DISCORD_CHAT_ID=
+      - MARIA_USER= 
+      - MARIA_PASSWD= 
+      - MARIA_HOST=mariabd
+      - MARIA_PORT=3306
+      - MARIA_DB=
+      - OPEN_WEATHER_TOKEN= 
+    volumes:
+      - ./config:/usr/src/app/config/
+ 
+  mariabd:
+    image: mariadb
+    restart: always
+    environment:
+      - MARIADB_RANDOM_ROOT_PASSWORD=yes
+      - MARIADB_DATABASE=
+      - MARIADB_USER=
+      - MARIADB_PASSWORD=
+    volumes:
+      - ./data:/var/lib/mysql
+    expose:
+      - 3306

@@ -1,0 +1,2 @@
+django-sslserver==0.22
+Django==4.0.4

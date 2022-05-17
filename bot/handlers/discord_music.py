@@ -33,7 +33,7 @@ async def discord_music_sender(message: types.Message):
 
 async def create(message: types.Message):
     db = Database()
-    db.user_create_table()
+    db.create_tables()
     await message.answer('[+]', disable_notification=True)
 
 

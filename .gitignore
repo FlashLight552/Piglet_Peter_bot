@@ -1,11 +1,13 @@
-/models/en-US/
-/models/ru-RU/
-/models/uk-UA/
-/models/models.zip
-/config/session-*
-/config/config.py
-/config/fsm_data.json
-/docker-compose.yml
+bot/models/en-US/
+bot/models/ru-RU/
+bot/models/uk-UA/
+bot/models/models.zip
+bot/config/session-*
+bot/config/config.py
+bot/config/fsm_data.json
+bot/docker-compose.yml
+webapps/db.sqlite3
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

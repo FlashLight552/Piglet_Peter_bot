@@ -18,7 +18,7 @@ class Database:
             print(f"Error connecting to MariaDB Platform: {e}")
 
 
-    def user_create_table(self):
+    def create_tables(self):
         with self.connection:
             self.cursor.execute("""CREATE TABLE IF NOT EXISTS user_data (
                                 user_id INT PRIMARY KEY,
@@ -26,6 +26,13 @@ class Database:
                                 lang_assistant VARCHAR(20),
                                 lang_tts VARCHAR(20) 
                                 )""")
+            self.cursor.execute("""CREATE TABLE IF NOT EXISTS remind_app (
+                                id MEDIUMINT NOT NULL AUTO_INCREMENT,
+                                user_id INT,
+                                text VARCHAR(255),
+                                date DATETIME,
+                                PRIMARY KEY (id)
+                )""")
             self.connection.commit()
 
 
@@ -50,6 +57,30 @@ class Database:
                 return token[0]
     
     
+    def remind_app_save(self, user_id, text, date):
+        with self.connection:
+            self.cursor.execute("""INSERT INTO remind_app (user_id, text, date)
+                    VALUES (?,?,?)""", (user_id, text, date))
+            self.connection.commit()
+
+
+    def remind_app_request(self, time_start, time_stop):
+        with self.connection:
+            self.cursor.execute(f"""SELECT user_id, text FROM remind_app
+                    WHERE date BETWEEN (?) AND (?)""", (time_start, time_stop))
+
+            data = list()
+            for item in self.cursor:
+                data.append(item)
+            return data
+
+
+    def remind_app_delete(self, time_start, time_stop):
+        with self.connection:
+            self.cursor.execute("""DELETE FROM remind_app
+                    WHERE date BETWEEN (?) AND (?)""", (time_start, time_stop))
+            self.connection.commit()
+
     def sql_request(self, sql:str):
         with self.connection:
             try:
