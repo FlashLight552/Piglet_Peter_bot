@@ -21,6 +21,7 @@ async def voice_message(message:types.message, state: FSMContext):
             except: pass   
 
         file_id = message.voice.file_id
+        duration = message.voice.duration
         file = await telegram_bot.get_file(file_id)
         file_path = file.file_path
         await telegram_bot.download_file(file_path, 'downloads/voice_message/'+str(file.file_id)+'.oga')
@@ -33,18 +34,26 @@ async def voice_message(message:types.message, state: FSMContext):
 
         src_filename = proxy['file_path_sr']+'.oga'
         dest_filename = proxy['file_path_sr']+'.wav'
-
-        recog_result = recognition(src_filename,dest_filename,lang)
-        assistent_result = assistant(message.from_user.id, recog_result)
         
-        if assistent_result:
-            voice_files = glob.glob(proxy['file_path_sr']+'.*')
-            for item in voice_files:
-                os.remove(item)
-            await message.answer(assistent_result, disable_notification=True, parse_mode = types.ParseMode.HTML)
+        text = 'На каком языке говорят? Или воспользуйся функцией распознавания музыки Shazam.'
+        
+        if duration < 5:
+            recog_result = recognition(src_filename,dest_filename,lang)
+            assistent_result = assistant(message.from_user.id, recog_result)
+            
+            if assistent_result:
+                voice_files = glob.glob(proxy['file_path_sr']+'.*')
+                for item in voice_files:
+                    os.remove(item)
+                await message.answer(assistent_result, disable_notification=True, parse_mode = types.ParseMode.HTML)
 
+            else:
+                msg = await message.reply(text, reply_markup=lang_select_for_voice_message, disable_notification=True)
+                proxy['message_id_sr'] = msg.message_id
+                proxy['chat_id_sr'] = msg.chat.id
+        
         else:
-            msg = await message.reply('На каком языке говорят? Или воспользуйся функцией распознавания музыки Shazam.', reply_markup=lang_select_for_voice_message, disable_notification=True)
+            msg = await message.reply(text, reply_markup=lang_select_for_voice_message, disable_notification=True)
             proxy['message_id_sr'] = msg.message_id
             proxy['chat_id_sr'] = msg.chat.id
 
