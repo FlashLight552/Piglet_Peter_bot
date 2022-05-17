@@ -1,5 +1,5 @@
 from django.shortcuts import render
-import asyncio
+import asyncio, os
 
 def index(request):
     context = {}
@@ -15,7 +15,7 @@ def submit(request):
     
     async def tcp_echo_client(message):
         reader, writer = await asyncio.open_connection(
-            '127.0.0.1', 8888)
+            os.environ.get('SOCKET_SERVER_IP'), os.environ.get('SOCKET_SERVER_PORT'))
             
         writer.write(message.encode())
         await writer.drain()

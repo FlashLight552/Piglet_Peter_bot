@@ -3,12 +3,12 @@ version: '3'
 services:
   piter_bot:
     build: 
-      context: .
+      context: ./bot
       dockerfile: Dockerfile 
     depends_on:
     - 'mariabd'
     environment:
-      - TELEGRAM_TOKEN=   
+      - TELEGRAM_TOKEN=
       - OWNER=  
       - FILES_STORAGE_GROUP= 
       - INST_USER= 
@@ -21,9 +21,14 @@ services:
       - MARIA_PORT=3306
       - MARIA_DB=
       - OPEN_WEATHER_TOKEN= 
+      - SOCKET_SERVER_IP=piter_bot
+      - SOCKET_SERVER_PORT=8888
+      - WEBAPPS_URL=
     volumes:
-      - ./config:/usr/src/app/config/
- 
+      - ./data/telegram:/usr/src/app/config/
+    expose:
+      - 8888
+
   mariabd:
     image: mariadb
     restart: always
@@ -36,3 +41,30 @@ services:
       - ./data:/var/lib/mysql
     expose:
       - 3306
+  
+  nginx:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    depends_on:
+      - 'mariabd'
+    ports:
+      - '9000:9000'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data/nginx:/data
+      - ./data/nginx/letsencrypt:/etc/letsencrypt
+
+  django:
+    build:
+      context: ./webapps
+      dockerfile: Dockerfile
+    depends_on:
+    - 'mariabd'
+    expose:
+      - 9000
+    environment:
+      - SECRET_KEY=
+      - DEBUG=FALSE
+      - SOCKET_SERVER_IP=piter_bot
+      - SOCKET_SERVER_PORT=8888

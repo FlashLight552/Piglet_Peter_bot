@@ -7,7 +7,7 @@ bot/config/config.py
 bot/config/fsm_data.json
 bot/docker-compose.yml
 webapps/db.sqlite3
-
+webapps/webapps/settings.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
