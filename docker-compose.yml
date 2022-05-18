@@ -8,22 +8,22 @@ services:
     depends_on:
     - 'mariabd'
     environment:
-      - TELEGRAM_TOKEN=
-      - OWNER=  
-      - FILES_STORAGE_GROUP= 
-      - INST_USER= 
-      - INST_PASSWD= 
-      - INST_USERNAME= 
-      - DISCORD_CHAT_ID=
-      - MARIA_USER= 
-      - MARIA_PASSWD= 
+      - TELEGRAM_TOKEN=5183365795:AAHWNSzTh5CiK_2xzjukh0zOGbYceDZw3JA
+      - OWNER=330663508
+      - FILES_STORAGE_GROUP=-644081867
+      - INST_USER=boxb0y
+      - INST_PASSWD=Tardis245
+      - INST_USERNAME=boxb0y
+      - DISCORD_CHAT_ID=226588118394994688
+      - MARIA_USER=Piglet_Piter_bot
+      - MARIA_PASSWD=Piter
       - MARIA_HOST=mariabd
       - MARIA_PORT=3306
-      - MARIA_DB=
-      - OPEN_WEATHER_TOKEN= 
+      - MARIA_DB=bot
+      - OPEN_WEATHER_TOKEN=70c272edb229fc5251128fe1370f3846
       - SOCKET_SERVER_IP=piter_bot
       - SOCKET_SERVER_PORT=8888
-      - WEBAPPS_URL=
+      - WEBAPPS_URL=https://webapp.flashlight.pp.ua
     volumes:
       - ./data/telegram:/usr/src/app/config/
     expose:
@@ -34,26 +34,14 @@ services:
     restart: always
     environment:
       - MARIADB_RANDOM_ROOT_PASSWORD=yes
-      - MARIADB_DATABASE=
-      - MARIADB_USER=
-      - MARIADB_PASSWORD=
+      - MARIADB_DATABASE=bot
+      - MARIADB_USER=Piglet_Piter_bot
+      - MARIADB_PASSWORD=Piter
     volumes:
       - ./data:/var/lib/mysql
     expose:
       - 3306
   
-  nginx:
-    image: 'jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    depends_on:
-      - 'mariabd'
-    ports:
-      - '8000:8000'
-      - '81:81'
-      - '443:443'
-    volumes:
-      - ./data/nginx:/data
-      - ./data/nginx/letsencrypt:/etc/letsencrypt
 
   django:
     build:
@@ -64,7 +52,7 @@ services:
     ports:
       - '9000:9000'
     environment:
-      - SECRET_KEY=
+      - SECRET_KEY=django-insecure-*351_has0urqh0w3=x=v#n1#z#4^=#poq_rwj*rka+g1!u*a=p
       - DEBUG=FALSE
       - SOCKET_SERVER_IP=piter_bot
       - SOCKET_SERVER_PORT=8888

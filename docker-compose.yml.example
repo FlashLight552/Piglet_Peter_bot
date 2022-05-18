@@ -28,7 +28,7 @@ services:
       - ./data/telegram:/usr/src/app/config/
     expose:
       - 8888
- 
+
   mariabd:
     image: mariadb
     restart: always
@@ -41,19 +41,6 @@ services:
       - ./data:/var/lib/mysql
     expose:
       - 3306
-
-  nginx:
-    image: 'jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    depends_on:
-      - 'mariabd'
-    ports:
-      - '8000:8000'
-      - '81:81'
-      - '443:443'
-    volumes:
-      - ./data/nginx:/data
-      - ./data/nginx/letsencrypt:/etc/letsencrypt
 
   django:
     build:

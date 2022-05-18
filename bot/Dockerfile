@@ -1,6 +1,6 @@
-FROM python:3.10.4
+FROM python:3.10
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/piter_bot
 
 COPY requirements.txt ./
 
@@ -10,4 +10,4 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y ffmpeg
 
 COPY . .
 
-CMD [ "sleep", "infinite" ]
+CMD [ "python", "main.py" ]
