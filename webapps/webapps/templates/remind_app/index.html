@@ -35,13 +35,28 @@
     </script>
     <style>
 
+        body {
+            font-family: sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+        }
+
+
         textarea#floatingTextarea {
-            background-color: #e9ecef;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color-scheme: var(--tg-color-scheme);
+            color: var(--tg-theme-text-color, #222222);
         }
         
         
         input#mydp {
-            background-color: #e9ecef;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color-scheme: var(--tg-color-scheme);
+            color: var(--tg-theme-text-color, #222222);
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
@@ -50,21 +65,26 @@
 
         .flatpickr-mobile{
             height: 38px;
-            background-color: #e9ecef;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color-scheme: var(--tg-color-scheme);
+            color: var(--tg-theme-text-color, #222222);
         }
 
         .flatpickr-mobile:before  {
             content: attr(placeholder);
-            background-color: #e9ecef;
-            color: gray;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color-scheme: var(--tg-color-scheme);
+            color: var(--tg-theme-text-color, #222222);
             }
             .flatpickr-mobile:focus[value]:not([value=""]):before {
-            background-color: #e9ecef;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
             display: none;
             }
             
             input[type="hidden"][value]:not([value=""]) + .flatpickr-mobile:before {
-            background-color: #e9ecef;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
             display: none; 
 
     </style>
