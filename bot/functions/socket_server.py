@@ -25,7 +25,8 @@ async def handle_echo(reader, writer):
     hours = tz[1:3]
     if tz[0] == '+':
         utc_time = date_strp - datetime.timedelta(hours=int(hours))
-    utc_time = date_strp + datetime.timedelta(hours=int(hours))
+    else:
+        utc_time = date_strp + datetime.timedelta(hours=int(hours))
 
     await save(user_id, text, utc_time)
     
