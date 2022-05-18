@@ -1,5 +1,3 @@
-from cgitb import text
-from email import message
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import CommandStart
 
@@ -12,7 +10,6 @@ from functions.sql import Database
 async def start(message: types.message):
     text = 'Привет ^_^'
     await message.answer(text, reply_markup=help_inline, disable_notification=True)
-    print(message)
 
 
 async def start_language(message: types.message):

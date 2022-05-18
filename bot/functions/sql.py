@@ -24,7 +24,8 @@ class Database:
                                 user_id INT PRIMARY KEY,
                                 ds_token VARCHAR(100),
                                 lang_assistant VARCHAR(20),
-                                lang_tts VARCHAR(20) 
+                                lang_tts VARCHAR(20),
+                                tz VARCHAR(30)
                                 )""")
             self.cursor.execute("""CREATE TABLE IF NOT EXISTS remind_app (
                                 id MEDIUMINT NOT NULL AUTO_INCREMENT,
