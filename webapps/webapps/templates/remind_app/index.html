@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebApp Piglet Piter bot</title>
 
     <!-- CSS only -->
@@ -25,23 +24,11 @@
         setThemeClass();
     </script>
     <style>
-        body {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #222222);
-            {% comment %} color-scheme: var(--tg-color-scheme); {% endcomment %}
-        }
+
         textarea#floatingTextarea {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #222222);
+            background-color: #e9ecef;
         }
-        input#mydp {
-            background-color: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #222222);
-        }
-        h1.text-center.mb-3.text-secondary {
-            color: var(--tg-theme-text-color, #222222);
-            color-scheme: var(--tg-color-scheme);
-        }
+    
 
     </style>
 
@@ -51,13 +38,12 @@
 
 
 
-<div class='mx-auto col-9' style='margin-top: 2rem;'>
-    <h1 class='text-center mb-3'>Напоминалка</h1>
+<div class='mx-auto col-11' style='margin-top: 2rem;'>
     <form action="{% url 'remind_app:submit' %}" method="post", id='remind_form'>
         {% csrf_token %}
         <input type="hidden" id='user_id' name='user_id'>
-        <input class="form-control" type="text" placeholder="Тыкни сюда для выбора даты" id='mydp' name='data'><br>
-        <textarea class="form-control" placeholder="Что тебе напомнить, друг?" id="floatingTextarea" cols="30" rows="10" name='text'></textarea><br>
+        <input class="form-control" type="text" placeholder="Тыкни сюда для выбора даты" required id='mydp' name='data'><br>
+        <textarea class="form-control" placeholder="Что тебе напомнить, друг?" id="floatingTextarea" required rows="5" name='text'></textarea><br>
         <div class="d-grid gap-2">
             <button class="btn btn-outline-secondary" id="button_submit" type="submit">Напомнить</button>
         </div>
