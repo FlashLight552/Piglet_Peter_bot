@@ -27,7 +27,7 @@ async def handle_echo(reader, writer):
         utc_time = date_strp - datetime.timedelta(hours=int(hours))
     utc_time = date_strp + datetime.timedelta(hours=int(hours))
 
-    save(user_id, text, date)
+    await save(user_id, text, utc_time)
     
     await bot.send_message(user_id, f'Создал напоминание.\n\nНапомнить: {text}\nДата: {date}')
     writer.close()
