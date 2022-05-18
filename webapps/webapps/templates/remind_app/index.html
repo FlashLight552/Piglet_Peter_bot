@@ -47,20 +47,20 @@
             appearance: none;
             }
     
-            .flatpickr-mobile:before {
-                content: attr(placeholder);
-                color: gray;
-                background-color: #e9ecef;
-                height: 20px;
-                }
-                .flatpickr-mobile:focus[value]:not([value=""]):before {
-                display: none;
-                
-                }
-                
-                input[type="hidden"][value]:not([value=""]) + .flatpickr-mobile:before {
-                display: none;
-                }
+
+        .flatpickr-mobile:before {
+            content: attr(placeholder);
+            color: gray;
+            height: -5px;
+            }
+            .flatpickr-mobile:focus[value]:not([value=""]):before {
+            display: none;
+            
+            }
+            
+            input[type="hidden"][value]:not([value=""]) + .flatpickr-mobile:before {
+            display: none;
+            }
 
     </style>
 
