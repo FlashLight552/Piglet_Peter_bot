@@ -48,15 +48,19 @@
             }
     
             .flatpickr-mobile:before {
+                content: attr(placeholder);
                 color: gray;
                 background-color: #e9ecef;
+                height: 40px;
                 }
                 .flatpickr-mobile:focus[value]:not([value=""]):before {
                 display: none;
+                height: 40px;
                 }
                 
                 input[type="hidden"][value]:not([value=""]) + .flatpickr-mobile:before {
                 display: none;
+                height: 40px;
                 }
 
     </style>
