@@ -39,33 +39,26 @@
             background-color: #e9ecef;
         }
         
-        @media screen and (min-width: 280px) {
+        
         input#mydp {
             background-color: #e9ecef;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
             }
-        }
+    
+            .flatpickr-mobile:before {
+                content: attr(placeholder);
+                color: gray;
+                }
+                .flatpickr-mobile:focus[value]:not([value=""]):before {
+                display: none;
+                }
+                
+                input[type="hidden"][value]:not([value=""]) + .flatpickr-mobile:before {
+                display: none;
+                }
 
-        // Use the flatpickr-mobile class because we are on mobile
-        .flatpickr-mobile {
-        // Use the :not() pseudo-class with the :placeholder-shown pseudo-class
-        // to display an ::after pseudo-element with the placeholder attribute as content
-        &:not(:placeholder-shown)::after {
-        color: $primary-color;
-        content: attr(placeholder);
-        }
-  
-        // Then when we focus the input or when it has a value (:valid pseudo-class used
-        // to hijack the html5 validation state when the user enter a value), we mask the ::after
-        &:focus,
-        &:valid {
-        &::after {
-      display: none;
-            }
-        }
-}
     </style>
 
 
