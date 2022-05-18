@@ -27,10 +27,6 @@ async def handle_echo(reader, writer):
         utc_time = date_strp - datetime.timedelta(hours=int(hours))
     utc_time = date_strp + datetime.timedelta(hours=int(hours))
 
-    async def save(user_id, text, utc_time):
-        db = Database()
-        db.remind_app_save(user_id, text, utc_time)
-    
     save(user_id, text, utc_time)
     
     await bot.send_message(user_id, f'Создал напоминание.\n\nНапомнить: {text}\nДата: {date}')
@@ -47,4 +43,6 @@ async def server_start():
         await server.serve_forever()
 
 
-# asyncio.run(server_start())
+async def save(user_id, text, utc_time):
+    db = Database()
+    db.remind_app_save(user_id, text, str(utc_time))
