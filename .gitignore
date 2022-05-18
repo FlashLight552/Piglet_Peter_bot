@@ -5,7 +5,7 @@ bot/models/models.zip
 bot/config/session-*
 bot/config/config.py
 bot/config/fsm_data.json
-bot/docker-compose.yml
+docker-compose.yml
 webapps/db.sqlite3
 webapps/webapps/settings.py
 
