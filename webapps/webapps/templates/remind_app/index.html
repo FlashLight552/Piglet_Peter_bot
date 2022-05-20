@@ -36,6 +36,7 @@
     <style>
 
         body {
+            height: 100%;
             font-family: sans-serif;
             background-color: var(--tg-theme-bg-color, #f2f2f2);
             color: var(--tg-theme-text-color, #222222);
@@ -165,12 +166,6 @@
             
             <script>
                 Telegram.WebApp.ready();
-                Telegram.WebApp.MainButton.show()
-
-                Telegram.WebApp.onEvent('mainButtonClicked', function(){
-                    Telegram.WebApp.sendData("some string that we need to send"); 
-            
-                });
 
                 let initData = Telegram.WebApp.initData || '';
                 let initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
