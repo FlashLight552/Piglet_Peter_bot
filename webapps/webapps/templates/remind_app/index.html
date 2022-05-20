@@ -175,20 +175,7 @@
 
                 tg.onEvent('mainButtonClicked', function(){
                      
-                    $(document).ready(
-                        $('#remind_form').submit(function(e){
-                          e.preventDefault();
-                          var serializedData = $(this).serialize();
-                      
-                          $.ajax({
-                            type:"POST",
-                            url: "{% url 'remind_app:submit' %}",
-                            data:  serializedData,
-                            success: function(data){
-                              $("#result").text(data["result"]);
-                            },
-                          }); Telegram.WebApp.close();
-                        }))
+                   alert('sdfsdfsdf')
                    
                 });
 
