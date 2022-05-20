@@ -104,16 +104,29 @@
 
 
 <div class='mx-auto col-11' style='margin-top: 2rem;'>
-    <form action="{% url 'remind_app:submit' %}" method="post", id='remind_form'>
+    <form action="{% url 'remind_app:submit' %}" method="post" id='remind_form' class="form-floating">
         {% csrf_token %}
+    
         <input type="hidden" id='user_id' name='user_id'>
-        <input class="form-control" type="text" placeholder="Тыкни сюда для выбора даты" required id='mydp' name='data'><br>
-        <textarea class="form-control" placeholder="Что тебе напомнить, друг?" id="floatingTextarea" required rows="5" name='text'></textarea><br>
+        
+        <div class="form-floating mb-3">
+            <input class="form-control" type="text" id='mydp' name='data' required >
+            <label for="mydp" class="form-label">Дата напоминания</label>
+        </div>
+        
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="floatingTextarea"  name='text' style="height: 100px" ></textarea>
+            <label for="floatingTextarea">Текст напоминания</label>
+        </div>
+
         <div class="d-grid gap-2">
-            <button class="btn btn-outline-secondary" id="button_submit" type="submit">Напомнить</button>
+            <button class="btn btn-primary" id="button_submit" type="submit">Напомнить</button>
         </div>
     </form>
         
+
+
+
     <script>
         flatpickr("#mydp", {
             enableTime: true,
