@@ -47,7 +47,7 @@
 
 
         textarea#floatingTextarea {
-            box-shadow: rgb(0 0 0 / 25%) 5px 7px 7px;
+            box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 4px;
             border-style: hidden;
             background-color: var(--tg-theme-bg-color, #fefefe);
             color-scheme: var(--tg-color-scheme);
@@ -56,7 +56,7 @@
         
         
         input#mydp {
-            box-shadow: rgb(0 0 0 / 10%) 5px 7px 9px;
+            box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 4px;
             border-style: hidden;
             background-color: var(--tg-theme-bg-color, #fefefe);
             color-scheme: var(--tg-color-scheme);
@@ -67,7 +67,6 @@
             }
 
         button#button_submit {
-            box-shadow: rgb(0 0 0 / 25%) 5px 7px 7px;
             border-style: hidden;
             background-color: dodgerblue;
             height: 42px;
@@ -121,6 +120,10 @@
     
         <input type="hidden" id='user_id' name='user_id'>
         
+        <div class="form-floating mb-3">
+            <p class="h3">Создание напоминаний</p>
+        </div>
+
         <div class="form-floating mb-3">
             <input class="form-control" type="text" id='mydp' name='data' required >
             <label for="mydp" class="form-label">Дата напоминания</label>
