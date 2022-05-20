@@ -43,6 +43,7 @@
             margin: 0;
             padding: 0;
             color-scheme: var(--tg-color-scheme);
+
         }
         
         p.h3 {
@@ -51,7 +52,7 @@
         }
 
         textarea#floatingTextarea {
-            box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 4px;
+            box-shadow: rgb(0 0 0 / 9%) 0px 0px 6px 4px;
             border-style: hidden;
             background-color: var(--tg-theme-bg-color, #fefefe);
             color-scheme: var(--tg-color-scheme);
@@ -60,7 +61,7 @@
         
         
         input#mydp {
-            box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 4px;
+            box-shadow: rgb(0 0 0 / 9%) 0px 0px 6px 4px;
             border-style: hidden;
             background-color: var(--tg-theme-bg-color, #fefefe);
             color-scheme: var(--tg-color-scheme);
@@ -74,11 +75,17 @@
             border-style: hidden;
             background-color: dodgerblue;
             height: 42px;
+            bottom: 0;
+            width: 100%;
+            position: fixed;
+            left: 0px;
+            border-radius: 0px;
         }
+
 
         .flatpickr-mobile{
             height: 38px;
-            box-shadow: rgb(0 0 0 / 12%) 0px 0px 6px 4px;
+            box-shadow: rgb(0 0 0 / 9%) 0px 0px 6px 4px;
             border-style: hidden;
             background-color: var(--tg-theme-bg-color, #fefefe);
             color-scheme: var(--tg-color-scheme);
@@ -138,9 +145,10 @@
             <label for="floatingTextarea">Текст напоминания</label>
         </div>
 
-        <div class="d-grid gap-2">
+        <button class="btn btn-primary" id="button_submit" type="submit">Напомнить</button>
+        {% comment %} <div class="d-grid gap-2">
             <button class="btn btn-primary" id="button_submit" type="submit">Напомнить</button>
-        </div>
+        </div> {% endcomment %}
     </form>
         
 
