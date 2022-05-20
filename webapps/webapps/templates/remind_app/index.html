@@ -166,6 +166,12 @@
             <script>
                 Telegram.WebApp.ready();
                 Telegram.WebApp.MainButton.show()
+
+                Telegram.WebApp.onEvent('mainButtonClicked', function(){
+                    Telegram.WebApp.sendData("some string that we need to send"); 
+            
+                });
+
                 let initData = Telegram.WebApp.initData || '';
                 let initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
                 document.getElementById('user_id').value = initDataUnsafe.user.id;
