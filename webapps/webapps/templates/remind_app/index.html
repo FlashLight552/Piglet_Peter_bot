@@ -166,11 +166,32 @@
             
             <script>
                 Telegram.WebApp.ready();
+                Telegram.WebApp.MainButton.show()
 
                 let initData = Telegram.WebApp.initData || '';
                 let initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
                 document.getElementById('user_id').value = initDataUnsafe.user.id;
 
+                Telegram.WebApp.onEvent('mainButtonClicked', function(){
+                     
+                    $(document).ready(
+                        $('#remind_form').submit(function(e){
+                          e.preventDefault();
+                          var serializedData = $(this).serialize();
+                      
+                          $.ajax({
+                            type:"POST",
+                            url: "{% url 'remind_app:submit' %}",
+                            data:  serializedData,
+                            success: function(data){
+                              $("#result").text(data["result"]);
+                            },
+                          }); Telegram.WebApp.close();
+                        }))
+                   
+                });
+
+                
                     $(document).ready(
                         $('#remind_form').submit(function(e){
                           e.preventDefault();
