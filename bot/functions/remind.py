@@ -11,8 +11,8 @@ from config.create_bot import telegram_bot as bot
 async def remind_check():
     while True:
         await asyncio.sleep(5)
-        time_start = dt.now().replace(second=0, microsecond=0) + datetime.timedelta(minutes=1)
-        time_stop = dt.now().replace(second=0, microsecond=0) + datetime.timedelta(minutes=2)
+        time_start = dt.now().replace(second=0, microsecond=0) 
+        time_stop = dt.now().replace(second=59, microsecond=0) 
         db = Database()
         result = db.remind_app_request(time_start, time_stop)
         if result:
