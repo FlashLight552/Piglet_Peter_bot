@@ -75,12 +75,8 @@
         button#button_submit {
             border-style: hidden;
             background-color: dodgerblue;
-            height: 42px;
-            bottom: 0;
-            width: 100%;
-            position: fixed;
-            left: 0px;
-            border-radius: 0px;
+            height: 50px;
+
         }
 
 
@@ -146,57 +142,48 @@
             <label for="floatingTextarea">Текст напоминания</label>
         </div>
 
-        <button class="btn btn-primary" id="button_submit" type="submit">Напомнить</button>
-        {% comment %} <div class="d-grid gap-2">
+         <div class="d-grid gap-2">
             <button class="btn btn-primary" id="button_submit" type="submit">Напомнить</button>
-        </div> {% endcomment %}
+        </div> 
+    
     </form>
         
 
 
 
-    <script>
-        flatpickr("#mydp", {
-            enableTime: true,
-            "locale": "ru"
-        });
+            <script>
+                flatpickr("#mydp", {
+                    enableTime: true,
+                    "locale": "ru"
+                });
             </script>   
-            
+                    
             <script src="https://webappcontent.telegram.org/js/jquery.min.js"></script>
             
             <script>
                 let tg = window.Telegram.WebApp;
                 tg.ready()
-                tg.MainButton.show()
 
-                let initData = Telegram.WebApp.initData || '';
-                let initDataUnsafe = Telegram.WebApp.initDataUnsafe || {};
+                let initData = tg.initData || '';
+                let initDataUnsafe = tg.initDataUnsafe || {};
                 document.getElementById('user_id').value = initDataUnsafe.user.id;
 
-                tg.onEvent('mainButtonClicked', function(){
-                     
-                   
-                   
-                
+                $(document).ready(
+                    $('#remind_form').submit(function(e){
+                        e.preventDefault();
+                        var serializedData = $(this).serialize();
 
-                
-                    $(document).ready(
-                        $('#remind_form').submit(function(e){
-                          e.preventDefault();
-                          var serializedData = $(this).serialize();
-                      
-                          $.ajax({
-                            type:"POST",
-                            url: "{% url 'remind_app:submit' %}",
-                            data:  serializedData,
-                            success: function(data){
-                              $("#result").text(data["result"]);
-                            },
-                          }); Telegram.WebApp.close();
-                        })
-                      );   
+                        $.ajax({
+                        type:"POST",
+                        url: "{% url 'remind_app:submit' %}",
+                        data:  serializedData,
+                        success: function(data){
+                            $("#result").text(data["result"]);
+                        },
+                        }); Telegram.WebApp.close();
+                    })
+                    );
 
-                    });
             </script>
         
     </div>
