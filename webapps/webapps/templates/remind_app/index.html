@@ -129,9 +129,6 @@
                     <button class="btn btn-primary" id="button_submit" type="submit">Напомнить</button>
                 </div> 
 
-                <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-primary" id="button_test">test</button>
-                </div> 
             </form>
         </div>    
 
@@ -171,12 +168,5 @@
         </script>
 
 
-        <script>
-            button_test.addEventListener('click', function(){ //вешаем событие на нажатие html-кнопки
-                let tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.sendData("some string that we need to send");
-            });
-        </script>
     </body>
 </html>
