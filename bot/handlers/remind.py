@@ -1,5 +1,5 @@
 from aiogram import Dispatcher, types
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 from aiogram.types.web_app_info import WebAppInfo
 from config.config import WEBAPPS_URL
 from functions.sql import Database
@@ -14,6 +14,12 @@ async def remind_start_app(message: types.Message):
                     reply_markup=InlineKeyboardMarkup().add(
                         InlineKeyboardButton(text='Тыкни сюда', 
                         web_app=WebAppInfo(url=f"{WEBAPPS_URL}"))))
+    # test
+        await message.answer('test', reply_markup=ReplyKeyboardMarkup().add(
+            KeyboardButton(text='test', web_app=WebAppInfo(url=f"{WEBAPPS_URL}"))
+        ))
+    # /test
+    
     else:
         await message.answer('Сначала отправь мне свою геолокацию,'\
                             ' чтоб я мог определить твой часовой пояс.')
