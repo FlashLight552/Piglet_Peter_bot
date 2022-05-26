@@ -10,6 +10,6 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get install -y ffmpeg
 
 COPY . .
 
-COPY ./cofig/config.py.example ./cofig/config.py
+COPY /cofig/config.py.example /cofig/config.py
 
 CMD [ "python", "main.py" ]
