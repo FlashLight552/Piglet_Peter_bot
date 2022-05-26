@@ -8,7 +8,8 @@ from timezonefinder import TimezoneFinder
 
 async def remind_start_app(message: types.Message):
     db = Database()
-    timezone_db = db.user_data_request(message.from_user.id, 'tz')
+    with db.connection:
+        timezone_db = db.user_data_request(message.from_user.id, 'tz')
     if timezone_db:
         await message.answer('Заполни форму для создания напоминания',
                     reply_markup=InlineKeyboardMarkup().add(
@@ -28,7 +29,8 @@ async def get_loc(message: types.Message):
     tz = tf.timezone_at(lng=longitude, lat=latitude)    
 
     db = Database()
-    db.user_data_save(message.from_user.id, 'tz', tz)
+    with db.connection:
+        db.user_data_save(message.from_user.id, 'tz', tz)
 
     await message.answer(f'Геолокация: {tz}\n',
             reply_markup=InlineKeyboardMarkup().add(

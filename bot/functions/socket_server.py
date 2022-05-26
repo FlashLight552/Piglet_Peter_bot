@@ -16,19 +16,20 @@ async def handle_echo(reader, writer):
 
     user_id, date, text = split_msg
     db = Database()
-    timezone_db = db.user_data_request(user_id, 'tz')
+    with db.connection:
+        timezone_db = db.user_data_request(user_id, 'tz')
 
-    tz_time = dt.now(pytz.timezone(timezone_db)).replace(second=0, microsecond=0)
-    date_strp = dt.strptime(date, '%Y-%m-%d %H:%M')
+        tz_time = dt.now(pytz.timezone(timezone_db)).replace(second=0, microsecond=0)
+        date_strp = dt.strptime(date, '%Y-%m-%d %H:%M')
 
-    tz = (str(tz_time)[19:])
-    hours = tz[1:3]
-    if tz[0] == '+':
-        utc_time = date_strp - datetime.timedelta(hours=int(hours))
-    else:
-        utc_time = date_strp + datetime.timedelta(hours=int(hours))
+        tz = (str(tz_time)[19:])
+        hours = tz[1:3]
+        if tz[0] == '+':
+            utc_time = date_strp - datetime.timedelta(hours=int(hours))
+        else:
+            utc_time = date_strp + datetime.timedelta(hours=int(hours))
 
-    await save(user_id, text, utc_time)
+        db.remind_app_save(user_id, text, str(utc_time))
     
     await bot.send_message(user_id, f'Создал напоминание.\n\nНапомнить: {text}\nДата: {date}')
     writer.close()
@@ -42,8 +43,3 @@ async def server_start():
 
     async with server:
         await server.serve_forever()
-
-
-async def save(user_id, text, utc_time):
-    db = Database()
-    db.remind_app_save(user_id, text, str(utc_time))

@@ -62,14 +62,16 @@ async def command_list_cmd(call: types.callback_query):
 async def language_selector_for_inline_tts(call: types.callback_query):
     lang = str(call.data)
     db = Database()
-    db.user_data_save(call['from']['id'], 'lang_tts', lang.split('_')[1])
+    with db.connection:
+        db.user_data_save(call['from']['id'], 'lang_tts', lang.split('_')[1])
     await call.message.answer('Сохранил', disable_notification=True)
 
 
 async def language_selector_for_assistant(call: types.callback_query):
     lang = str(call.data)
     db = Database()
-    db.user_data_save(call['from']['id'], 'lang_assistant', lang.split('_')[1])
+    with db.connection:
+        db.user_data_save(call['from']['id'], 'lang_assistant', lang.split('_')[1])
     await call.message.answer('Сохранил', disable_notification=True)
 
 

@@ -43,7 +43,8 @@ async def inline_tts(inline_query: InlineQuery):
     
     else:
         if text != 'echo':
-            lang = db.user_data_request(inline_query.from_user.id, 'lang_tts')
+            with db.connection:
+                lang = db.user_data_request(inline_query.from_user.id, 'lang_tts')
             if not lang:
                 lang = 'ru'
 

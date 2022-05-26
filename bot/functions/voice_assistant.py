@@ -72,7 +72,8 @@ def discord_youtube_music_song(*args):
     result = search_on_youtube_music(search)[0]
     
     db = Database()
-    token = db.user_data_request(args[0][0], 'ds_token')
+    with db.connection:
+        token = db.user_data_request(args[0][0], 'ds_token')
     if token:
         client = zenon.Client(token)
         client.send_message(DISCORD_CHAT_ID, f'!! {result}')
@@ -90,7 +91,8 @@ def discord_youtube_music_playlist(*args):
     result = search_on_youtube_music(search)
     
     db = Database()
-    token = db.user_data_request(args[0][0], 'ds_token')
+    with db.connection:
+        token = db.user_data_request(args[0][0], 'ds_token')
     if token:
         client = zenon.Client(token)
         for i in range(5):

@@ -28,7 +28,8 @@ async def voice_message(message:types.message, state: FSMContext):
         proxy['file_path_sr'] = 'downloads/voice_message/'+str(file.file_id)
 
         db = Database()
-        lang = db.user_data_request(message.from_user.id, 'lang_assistant')
+        with db.connection:
+            lang = db.user_data_request(message.from_user.id, 'lang_assistant')
         if not lang:
             lang = 'ru-RU'
 

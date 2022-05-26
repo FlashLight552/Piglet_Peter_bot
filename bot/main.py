@@ -32,16 +32,17 @@ translate.handlers_translate(dp)
 
 
 if __name__ == '__main__':
-    db = Database()
     while True:
         try:
-            db.create_tables()
+            db = Database()
+            with db.connection:
+                db.create_table_user_data()
+                db.create_table_remind_app()
         except:
-            print('Try to connect again')
-            sleep(2)
+            sleep(5)
         else:
             break
-    
+
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.create_task(server_start())

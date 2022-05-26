@@ -5,6 +5,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile 
+    restart: always
     depends_on:
     - 'mariabd'
     environment:
@@ -46,12 +47,18 @@ services:
     build:
       context: ./webapps
       dockerfile: Dockerfile
+    restart: always
     depends_on:
     - 'mariabd'
-    ports:
-      - '9000:9000'
+    expose:
+      - 9000
     environment:
       - SECRET_KEY=
       - DEBUG=FALSE
       - SOCKET_SERVER_IP=piter_bot
       - SOCKET_SERVER_PORT=8888
+
+networks:
+  default:
+    external:
+      name: nginx-networks
