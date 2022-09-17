@@ -11,6 +11,10 @@ async def start(message: types.message):
     text = 'Привет ^_^'
     await message.answer(text, reply_markup=help_inline, disable_notification=True)
 
+async def remove_kb(message: types.message):
+    text = 'Removed!'
+    await message.answer(text, reply_markup=None, disable_notification=True)
+
 
 async def start_language(message: types.message):
     text = 'Выбери язык'
@@ -94,6 +98,8 @@ async def sql_request_cmd(message: types.Message):
 def handlers_start(dp: Dispatcher):
     dp.register_message_handler(start_language, CommandStart('language'))
     dp.register_message_handler(start, CommandStart())
+
+    dp.register_message_handler(remove_kb, commands=['remove'])
 
     dp.register_callback_query_handler(help_btn, text='help')
     dp.register_callback_query_handler(command_list_cmd, text='command_list')
