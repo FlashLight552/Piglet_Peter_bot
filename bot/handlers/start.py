@@ -13,7 +13,7 @@ async def start(message: types.message):
 
 async def remove_kb(message: types.message):
     text = 'Removed!'
-    await message.answer(text, reply_markup=None, disable_notification=True)
+    await message.answer(text, reply_markup=types.reply_keyboard.ReplyKeyboardRemove(True), disable_notification=True,)
 
 
 async def start_language(message: types.message):
