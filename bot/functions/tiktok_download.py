@@ -7,5 +7,3 @@ def download_video(url, video_id):
     try:
         Snaptik(url)[0].download(path)
     except: pass
-
-
