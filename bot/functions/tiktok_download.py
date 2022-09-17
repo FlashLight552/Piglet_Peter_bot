@@ -1,7 +1,3 @@
-import re
-import sys
-import random
-from base64 import b64decode
 import requests
 import bs4
 
@@ -9,23 +5,6 @@ import bs4
 class tiktok_downloader:
     def __init__(self):
         pass
-
-    def tik_tok_video(self, url):
-        "this function can't be use !"
-        ses = requests.Session()
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0',
-            'Accept': 'application/json, text/plain, */*',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Content-Type': 'application/json',
-            'Content-Length': '46',
-            'Origin': 'https://tik-tok-video.com',
-            'Referer': 'https://tik-tok-video.com/en/'
-        }
-        data = {"url": url}
-        headers['Content-Length'] = str(len(str(data)))
-        req = ses.post('https://tik-tok-video.com/api/convert', json=data)
-        print(req.text)
 
     def musicaldown(self, url, output_name):
         """url: tiktok video url
