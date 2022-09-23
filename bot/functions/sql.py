@@ -41,11 +41,9 @@ class Database:
 
     def create_table_sub_to_title(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS sub_to_title (
-                            id MEDIUMINT NOT NULL AUTO_INCREMENT,
                             user_id INT,
-                            title_name VARCHAR(50),
-                            dub_studio VARCHAR(50),
-                            PRIMARY KEY (id)
+                            title_name VARCHAR(200),
+                            dub_studio VARCHAR(80)
         )""")
         self.connection.commit()
 

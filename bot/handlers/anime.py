@@ -26,20 +26,24 @@ async def anime_by_url(message: types.message):
         for item in dub_studio:
             if item.strip() in sub_dub_list:
                 text = f'✅ {item.strip()}'
-                callback_data = f'dub_studio+{item}+y'.strip()
+                callback_data = f'dub_studio+{str(item).strip()}+y'
             else:
                 text = f'❌ {item.strip()}' 
-                callback_data = f'dub_studio+{item}+n'.strip()  
+                callback_data = f'dub_studio+{str(item).strip()}+n'  
             inline_select_dub.add(InlineKeyboardButton(text=text, callback_data=callback_data))
-  
 
-    await message.answer_photo(poster, caption = f'{title}{status}{amount_ep}{next_ep}{dub}{sub}'.strip(), reply_markup = inline_select_dub)
+    caption = f'{title}{status}{amount_ep}{next_ep}{dub}{sub}'.strip()
+    if 'inline_select_dub' in locals():
+        await message.answer_photo(poster, caption = caption, reply_markup = inline_select_dub)
+    else:
+        await message.answer_photo(poster, caption = caption)
 
-async def test(call: types.CallbackQuery):
+async def callback_kb_sub(call: types.CallbackQuery):
     dub_studio = str(call.data).split('+')[1].strip()
     did_subscribed = str(call.data).split('+')[2].strip()
     title_name = str(call.message.caption).split('\n')[0]
     user_id = call.from_user.id
+    sub_dub_list = []
 
     db = Database()
     with db.connection:
@@ -72,4 +76,4 @@ async def test(call: types.CallbackQuery):
 
 def handlers_anime(dp: Dispatcher):
     dp.register_message_handler(anime_by_url, regexp='(https?:\/\/)?(animego.org\/)')
-    dp.register_callback_query_handler(test, regexp='(dub_studio)')
+    dp.register_callback_query_handler(callback_kb_sub, regexp='(dub_studio)')

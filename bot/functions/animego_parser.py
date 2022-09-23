@@ -32,7 +32,7 @@ def request_anime_info(url):
         status = [f'{info[i+1]}' for i in range(len(info)) if info[i]=='Статус'] or ['']
         dub = [f'{info[i+1]}' for i in range(len(info)) if info[i]=='Озвучка'] or ['']
         
-        return(str(title), str(poster), status[0], amount_ep[0], next_ep[0], dub[0])
+        return(str(title), str(poster), status[0], amount_ep[0], next_ep[0], str(dub[0]).replace('Профессиональный многоголосый', 'Профессиональный'))
 
 
 async def new_ep_detector_and_send_msg():
@@ -48,7 +48,7 @@ async def new_ep_detector_and_send_msg():
             list = []
 
             for item in new:
-                title = item.span.text
+                title = str(item.span.text).replace('Профессиональный многоголосый', 'Профессиональный')
                 ep = item.find('div', class_='font-weight-600 text-truncate').text
                 studio = str(item.find('div', class_='text-gray-dark-6').text).replace('(','').replace(')','')
                 result = {'title':title, 'studio':studio, 'ep':ep}
