@@ -5,11 +5,12 @@ import logging
 
 from config.create_bot import dp
 from handlers import instagram, tiktok, start, speech_recognition,\
-             translate, tts_google, inline_mod, shazam, discord_music, remind
+             translate, tts_google, inline_mod, shazam, discord_music, remind, anime
 
 from functions.sql import Database
 from functions.socket_server import server_start
 from functions.remind import remind_check
+from functions.animego_parser import new_ep_detector_and_send_msg
 
 # Логи
 logging.basicConfig(level=logging.INFO)
@@ -19,6 +20,8 @@ start.handlers_start(dp)
 
 tiktok.handlers_tiktok(dp)
 instagram.intdl_hendler(dp)
+anime.handlers_anime(dp)
+
 discord_music.discord_handler(dp)
 
 remind.handlers_remind(dp)
@@ -38,6 +41,8 @@ if __name__ == '__main__':
             with db.connection:
                 db.create_table_user_data()
                 db.create_table_remind_app()
+                db.create_table_sub_to_title()
+                db.create_table_last_anime_update()
         except:
             sleep(5)
         else:
@@ -47,5 +52,6 @@ if __name__ == '__main__':
     asyncio.set_event_loop(loop)
     loop.create_task(server_start())
     loop.create_task(remind_check())
+    loop.create_task(new_ep_detector_and_send_msg())
 
     executor.start_polling(dp, skip_updates=True)

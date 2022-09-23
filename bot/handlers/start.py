@@ -1,5 +1,6 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import CommandStart
+from aiogram.utils.markdown import link
 
 from config.btn import *
 from config.config import OWNER
@@ -42,9 +43,12 @@ async def help_btn(call: types.CallbackQuery):
         '- Песня, трек, song + название трека. Включит трек в дискорд канале\n'\
         '- Плейлист, playlist + исполнитель или альбом. Включит плейлист в дискорд канале\n'\
         '- Подбрось монетку.' \
-        '\n\nNew!\nНапоминание. теперь я могу по твоей просьбе напоминать тебе что-либо. '\
+        '\n\nНапоминание. теперь я могу по твоей просьбе напоминать тебе что-либо. '\
             'Для использования нужно отправить геопозицию мне для определения часового пояса. '\
-                'После можно использовать команду /remind_me'
+                'После можно использовать команду /remind_me'\
+        '\n\nNew!\nТеперь можно отслеживать аниме в своей любимой озвучке! '\
+        f'Для этого отравьте мне ссылку на аниме с ресурса {link("AnimeGo", "https://animego.org/")}. '\
+        'После выбери студию и я напишу тебе, когда выйдет новая серия.'
     
     await call.message.answer(text, disable_notification=True, reply_markup=command_list)
 

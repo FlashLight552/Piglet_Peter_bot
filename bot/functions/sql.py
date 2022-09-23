@@ -39,6 +39,62 @@ class Database:
                 )""")
             self.connection.commit()
 
+    def create_table_sub_to_title(self):
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS sub_to_title (
+                            id MEDIUMINT NOT NULL AUTO_INCREMENT,
+                            user_id INT,
+                            title_name VARCHAR(50),
+                            dub_studio VARCHAR(50),
+                            PRIMARY KEY (id)
+        )""")
+        self.connection.commit()
+
+    def create_table_last_anime_update(self):
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS last_anime_update (
+                            title_name VARCHAR(200),
+                            ep VARCHAR(50),
+                            dub_studio VARCHAR(80)
+        )""")
+        self.connection.commit()
+
+    def add_last_anime_update(self, title_name,ep,dub_studio):
+        self.cursor.execute("""INSERT INTO last_anime_update (title_name,ep,dub_studio)
+                            VALUES(?,?,?)""", (title_name,ep,dub_studio))
+        self.connection.commit()
+    
+    def select_from_last_anime_update(self, title_name,ep,dub_studio):
+        self.cursor.execute("""SELECT * FROM last_anime_update WHERE
+                            title_name=(?) AND ep=(?) AND dub_studio=(?)""", (title_name,ep,dub_studio))
+        list = []
+        for item in self.cursor:
+            list.append(item[0])
+        return list
+
+    def sub_to_new_release(self, user_id:str, title_name:str, dub_studio:str):
+        self.cursor.execute(f"""INSERT INTO sub_to_title (user_id, title_name, dub_studio)
+                            VALUES (?,?,?)""", (user_id, title_name, dub_studio))
+        self.connection.commit()
+
+    def unsub_from_new_release(self, user_id:str, title_name:str, dub_studio:str):
+        self.cursor.execute(f"""DELETE FROM sub_to_title
+                            WHERE user_id=(?) AND title_name=(?) AND dub_studio=(?)""", (user_id, title_name, dub_studio))
+        self.connection.commit()
+
+    def select_dub_from_sub_to_title(self, user_id:str, title_name:str)-> str:
+        self.cursor.execute(f"""SELECT dub_studio FROM sub_to_title 
+                            WHERE user_id=(?) AND title_name=(?)""", (user_id, title_name))
+        list = []
+        for item in self.cursor:
+            list.append(item[0])
+        return list
+
+    def select_user_from_sub_to_title(self, title_name:str, dub_studio:str,)-> str:
+        self.cursor.execute(f"""SELECT user_id FROM sub_to_title 
+                            WHERE dub_studio=(?) AND title_name=(?)""", (dub_studio, title_name))
+        list = []
+        for item in self.cursor:
+            list.append(item[0])
+        return list
 
     def user_data_save(self, user_id:str ,column:str, data:str):
             self.cursor.execute(f"""INSERT INTO user_data (user_id, {column})
