@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters import CommandStart
-from aiogram.utils.markdown import link
+from aiogram.utils.markdown import hlink
 
 from config.btn import *
 from config.config import OWNER
@@ -37,20 +37,20 @@ async def help_btn(call: types.CallbackQuery):
         '\n\nУмею распозновать музыку, отправь мне голосовое сообщение с играющей музыкой.'  \
         f'\n\nЕще работаю в инлайн режиме. Позови меня @{me.username} и напиши что-то и я это озвучу. '\
         'Так-же можно прислать ссылку на Tiktok видео.'\
-        '\n\nNew!\nVoice assistant. Отправь голосовое сообщение с командой:\n'\
+        '\n\nVoice assistant. Отправь голосовое сообщение с командой:\n'\
         '- Youtube или видео + название. [Видео милые котики]\n'\
         '- Погода + город + страна. [Погода Киев Украина]\n'\
         '- Песня, трек, song + название трека. Включит трек в дискорд канале\n'\
         '- Плейлист, playlist + исполнитель или альбом. Включит плейлист в дискорд канале\n'\
         '- Подбрось монетку.' \
-        '\n\nНапоминание. теперь я могу по твоей просьбе напоминать тебе что-либо. '\
-            'Для использования нужно отправить геопозицию мне для определения часового пояса. '\
-                'После можно использовать команду /remind_me'\
+        '\n\nНапоминания. Теперь я могу по твоей просьбе напоминать тебе что-либо. '\
+        'Для использования нужно отправить геопозицию мне для определения часового пояса. '\
+        'После можно использовать команду /remind_me'\
         '\n\nNew!\nТеперь можно отслеживать аниме в своей любимой озвучке! '\
-        f'Для этого отравьте мне ссылку на аниме с ресурса {link("AnimeGo", "https://animego.org/")}. '\
+        f'Для этого отравь мне ссылку на аниме с ресурса {hlink("AnimeGo", "https://animego.org/")}. '\
         'После выбери студию и я напишу тебе, когда выйдет новая серия.'
     
-    await call.message.answer(text, disable_notification=True, reply_markup=command_list)
+    await call.message.answer(text, disable_notification=True, reply_markup=command_list, parse_mode = 'HTML', disable_web_page_preview = True)
 
 
 async def command_list_cmd(call: types.callback_query):
