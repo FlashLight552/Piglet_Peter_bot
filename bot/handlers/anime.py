@@ -13,11 +13,11 @@ async def anime_by_url(message: types.message):
     next_ep = f'Следующий эпизод: {r[4]}\n' if r[4]!= '' else ''
     dub = f'Озвучка: {r[5]}\n'  if r[5]!= '' else ''
     sub = ''
-    
+
     db = Database()
     with db.connection:
         sub_dub_list = db.select_dub_from_sub_to_title(message.from_user.id, title.strip())
-    
+
     if r[2] == 'Онгоинг':
         sub = '\nПодписаться на получение уведомления о новой серии в твоей любимой озвучке.'
         dub_studio = str(r[5]).split(',')
@@ -38,6 +38,7 @@ async def anime_by_url(message: types.message):
     else:
         await message.answer_photo(poster, caption = caption)
 
+
 async def callback_kb_sub(call: types.CallbackQuery):
     dub_studio = str(call.data).split('+')[1].strip()
     did_subscribed = str(call.data).split('+')[2].strip()
@@ -54,14 +55,14 @@ async def callback_kb_sub(call: types.CallbackQuery):
                 db.unsub_from_new_release(user_id,title_name,dub_studio)
             sub_dub_list = db.select_dub_from_sub_to_title(user_id, title_name)
         except: pass
-    
+
     dub_list = []
     kb = call.message.reply_markup
     edited_kb = str(kb).replace('[','').replace(']','').replace('{','').replace('}','').replace('"inline_keyboard":', '').split(',')
     for item in edited_kb:
         if item.split('": "')[0] == ' "text':
             dub_list.append(item.split('": "')[1].replace('"','').replace('❌ ','').replace('✅ ',''))
-    
+
     inline_select_dub = InlineKeyboardMarkup()
     for item in dub_list:
         if item in sub_dub_list:
@@ -73,6 +74,7 @@ async def callback_kb_sub(call: types.CallbackQuery):
         inline_select_dub.add(InlineKeyboardButton(text=text, callback_data=callback_data))
 
     await call.message.edit_reply_markup(reply_markup=inline_select_dub)
+
 
 def handlers_anime(dp: Dispatcher):
     dp.register_message_handler(anime_by_url, regexp='(https?:\/\/)?(animego.org\/)')

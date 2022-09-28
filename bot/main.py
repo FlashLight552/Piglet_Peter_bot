@@ -10,7 +10,7 @@ from handlers import instagram, tiktok, start, speech_recognition,\
 from functions.sql import Database
 from functions.socket_server import server_start
 from functions.remind import remind_check
-from functions.animego_parser import new_ep_detector_and_send_msg
+from functions.animego_parser import new_ep_detector_and_send_msg, clear_last_update
 
 # Логи
 logging.basicConfig(level=logging.INFO)
@@ -53,5 +53,6 @@ if __name__ == '__main__':
     loop.create_task(server_start())
     loop.create_task(remind_check())
     loop.create_task(new_ep_detector_and_send_msg())
+    loop.create_task(clear_last_update())
 
     executor.start_polling(dp, skip_updates=True)

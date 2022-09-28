@@ -39,8 +39,10 @@ class Database:
                 )""")
             self.connection.commit()
 
+
     def create_table_sub_to_title(self):
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS sub_to_title (
+                            id MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                             user_id INT,
                             title_name VARCHAR(200),
                             dub_studio VARCHAR(80)
@@ -51,16 +53,21 @@ class Database:
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS last_anime_update (
                             title_name VARCHAR(200),
                             ep VARCHAR(50),
-                            dub_studio VARCHAR(80)
+                            dub_studio VARCHAR(80),
+                            life_time DATETIME default (NOW() + INTERVAL 7 DAY)
         )""")
         self.connection.commit()
 
-    def add_last_anime_update(self, title_name,ep,dub_studio):
+    def clear_last_anime_update(self):
+        self.cursor.execute("""DELETE FROM last_anime_update 
+                            WHERE life_time < now()""")
+
+    def add_in_last_anime_update(self, title_name,ep,dub_studio):
         self.cursor.execute("""INSERT INTO last_anime_update (title_name,ep,dub_studio)
                             VALUES(?,?,?)""", (title_name,ep,dub_studio))
         self.connection.commit()
     
-    def select_from_last_anime_update(self, title_name,ep,dub_studio):
+    def find_old_from_last_anime_update(self, title_name,ep,dub_studio):
         self.cursor.execute("""SELECT * FROM last_anime_update WHERE
                             title_name=(?) AND ep=(?) AND dub_studio=(?)""", (title_name,ep,dub_studio))
         list = []

@@ -38,12 +38,11 @@ def request_anime_info(url):
 async def new_ep_detector_and_send_msg():
     while True:
         try:
-            await asyncio.sleep(60 * 15)
+            await asyncio.sleep(15 * 60)
             url = 'https://animego.org/'
             r = requests.get(url)
             if r.status_code != 404:
                 soup = bs(r.text, 'lxml')
-                # new = soup.find_all('span', class_='last-update-title font-weight-600')
                 last_update = soup.find('div', class_='last-update')
                 new = last_update.find_all('div', class_='media-body')
                 list = []
@@ -58,12 +57,12 @@ async def new_ep_detector_and_send_msg():
                 db = Database()
                 with db.connection:
                     for item in list:
-                        if db.select_from_last_anime_update(item['title'], item['ep'], item['studio']):
+                        if db.find_old_from_last_anime_update(item['title'], item['ep'], item['studio']):
                             # print(f'allready have {item}')
                             pass
                         else:
                             # print(f'add {item}')
-                            db.add_last_anime_update(item['title'], item['ep'], item['studio'])
+                            db.add_in_last_anime_update(item['title'], item['ep'], item['studio'])
 
                             user_list = db.select_user_from_sub_to_title(item['title'], item['studio'])
                             for user in user_list:
@@ -72,3 +71,14 @@ async def new_ep_detector_and_send_msg():
                                 # print("Отправил сообщение {user}")
                                 await asyncio.sleep(0.2)
         except: pass
+
+
+async def clear_last_update():
+    while True:
+        await asyncio.sleep(24 * 60 * 60)
+        try:
+            db = Database()
+            with db.connection:
+                db.clear_last_anime_update()
+        except:
+            pass
