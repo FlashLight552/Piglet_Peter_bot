@@ -4,7 +4,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from functions.animego_parser import *
 from functions.sql import Database
 
-async def anime_by_url(message: types.message):
+async def anime_by_url(message: types.Message):
     r = request_anime_info(message.text)
     title = f'{r[0]}\n'
     poster = f'{r[1]}'
@@ -18,19 +18,21 @@ async def anime_by_url(message: types.message):
     with db.connection:
         sub_dub_list = db.select_dub_from_sub_to_title(message.from_user.id, title.strip())
 
-    if r[2] == 'Онгоинг':
-        sub = '\nПодписаться на получение уведомления о новой серии в твоей любимой озвучке.'
-        dub_studio = str(r[5]).split(',')
+    dub_studio = str(r[5]).split(',')
+    if dub_studio:
+        if r[2] == 'Онгоинг':
+            sub = '\nПодписаться на получение уведомления о новой серии в твоей любимой озвучке.'
+            
 
-        inline_select_dub = InlineKeyboardMarkup()
-        for item in dub_studio:
-            if item.strip() in sub_dub_list:
-                text = f'✅ {item.strip()}'
-                callback_data = f'dub_studio+{str(item).strip()}+y'
-            else:
-                text = f'❌ {item.strip()}' 
-                callback_data = f'dub_studio+{str(item).strip()}+n'  
-            inline_select_dub.add(InlineKeyboardButton(text=text, callback_data=callback_data))
+            inline_select_dub = InlineKeyboardMarkup()
+            for item in dub_studio:
+                if item.strip() in sub_dub_list:
+                    text = f'✅ {item.strip()}'
+                    callback_data = f'dub_studio+{str(item).strip()}+y'
+                else:
+                    text = f'❌ {item.strip()}' 
+                    callback_data = f'dub_studio+{str(item).strip()}+n'  
+                inline_select_dub.add(InlineKeyboardButton(text=text, callback_data=callback_data))
 
     caption = f'{title}{status}{amount_ep}{next_ep}{dub}{sub}'.strip()
     if 'inline_select_dub' in locals():
