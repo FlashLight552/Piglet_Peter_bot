@@ -19,7 +19,7 @@ async def anime_by_url(message: types.Message):
         sub_dub_list = db.select_dub_from_sub_to_title(message.from_user.id, title.strip())
 
     dub_studio = str(r[5]).split(',')
-    if dub_studio:
+    if dub_studio != '':
         if r[2] == 'Онгоинг':
             sub = '\nПодписаться на получение уведомления о новой серии в твоей любимой озвучке.'
             
