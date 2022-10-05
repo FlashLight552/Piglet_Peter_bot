@@ -25,7 +25,6 @@ async def lang_choise(call: types.CallbackQuery, state: FSMContext):
         await telegram_bot.edit_message_text(chat_id=proxy['chat_id'],message_id=proxy['message_id'],
                                         text = text, reply_markup=listen_inline)
         
-     
 
 async def listen(call: types.CallbackQuery):
     await types.ChatActions.record_voice()
