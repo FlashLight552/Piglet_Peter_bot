@@ -14,4 +14,4 @@ async def tk_video_sender(message : types.message):
 
 
 def handlers_tiktok(dp: Dispatcher):
-    dp.register_message_handler(tk_video_sender, regexp='(https?:\/\/)?(vm.|www.)?(tiktok.com\/)')
+    dp.register_message_handler(tk_video_sender, regexp='(https?:\/\/)?(vm.|www.|vt.)?(tiktok.com\/)')

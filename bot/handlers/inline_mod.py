@@ -13,7 +13,7 @@ from functions.tiktok_download import *
 from functions.sql import Database
 
 
-tiktok_pattern = re.compile('(https?:\/\/)?(vm.|www.)?(tiktok.com\/)')
+tiktok_pattern = re.compile('(https?:\/\/)?(vm.|www.|vt.)?(tiktok.com\/)')
 
 
 async def inline_tts(inline_query: InlineQuery):
