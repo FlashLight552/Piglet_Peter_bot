@@ -10,7 +10,7 @@ async def inst_dl(message: types.Message):
     file = instagram_downloader(message.text)
     
     if file.startswith('Login error:') or file.startswith('Access denied:'):
-        await msg.edit_text(file, disable_notification=True)
+        await msg.edit_text(file)
     
     else:
         await types.ChatActions.upload_document()
