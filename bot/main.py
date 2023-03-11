@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO)
 start.handlers_start(dp)
 
 tiktok.handlers_tiktok(dp)
-# instagram.intdl_hendler(dp)
+instagram.intdl_hendler(dp)
 anime.handlers_anime(dp)
 
 discord_music.discord_handler(dp)
