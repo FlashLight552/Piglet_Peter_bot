@@ -49,7 +49,6 @@ def vosk_ffmpeg_model(src_filename:str, lang:str) -> str:
             break
         if not rec.AcceptWaveform(data):
             result = (json.loads(rec.PartialResult()))
-
     return(result['partial'])
 
 
