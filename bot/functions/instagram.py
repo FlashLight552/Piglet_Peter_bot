@@ -12,10 +12,10 @@ def instagram_downloader(url):
                                 download_video_thumbnails=False, quiet=True, 
                                 user_agent=user_agent, dirname_pattern = 'downloads/instagram')
          
-    try:
-        L.load_session_from_file(username=config.config.INST_USERNAME, filename=f'config/session-{config.config.INST_USERNAME}')
-    except:
-        L.login(config.config.INST_USER, config.config.INST_PASSWD)   
+    # try:
+    #     L.load_session_from_file(username=config.config.INST_USERNAME, filename=f'config/session-{config.config.INST_USERNAME}')
+    # except:
+    #     L.login(config.config.INST_USER, config.config.INST_PASSWD)   
 
     try:
         post = instaloader.Post.from_shortcode(L.context, shortcode)
@@ -23,5 +23,5 @@ def instagram_downloader(url):
     except:
         shortcode = 'Access denied: закрытый аккаунт.' 
     
-    L.save_session_to_file(rf"config/session-{config.config.INST_USERNAME}")
+    # L.save_session_to_file(rf"config/session-{config.config.INST_USERNAME}")
     return shortcode
