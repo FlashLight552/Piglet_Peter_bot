@@ -4,6 +4,7 @@ import requests
 import re
 
 from config.create_bot import telegram_bot as bot
+from aiogram.utils.markdown import hlink
 from functions.sql import Database
 
 
@@ -45,13 +46,15 @@ async def new_ep_detector_and_send_msg():
                 soup = bs(r.text, 'lxml')
                 last_update = soup.find('div', class_='last-update')
                 new = last_update.find_all('div', class_='media-body')
+                url_list = last_update.find_all('div', class_='last-update-item')
                 list = []
 
-                for item in new:
+                for count, item in enumerate(new):
+                    title_url = url+str(url_list[count].get('onclick')).replace("location.href='/", '').replace("'",'')
                     title = str(item.span.text).replace('Профессиональный многоголосый', 'Профессиональный')
                     ep = item.find('div', class_='font-weight-600 text-truncate').text
                     studio = str(item.find('div', class_='text-gray-dark-6').text).replace('(','').replace(')','')
-                    result = {'title':title, 'studio':studio, 'ep':ep}
+                    result = {'title':title, 'studio':studio, 'ep':ep, 'url':title_url}
                     list.append(result)
 
                 db = Database()
@@ -66,8 +69,8 @@ async def new_ep_detector_and_send_msg():
 
                             user_list = db.select_user_from_sub_to_title(item['title'], item['studio'])
                             for user in user_list:
-                                text = f"Вышел новый эпизод!\nНазвание: {item['title']}\nЭпизод: {item['ep']}\nСтудия: {item['studio']}"
-                                await bot.send_message(user, text)
+                                text = f"Вышел новый эпизод!\nНазвание: {hlink(item['title'], item['url'])}\nЭпизод: {item['ep']}\nСтудия: {item['studio']}"
+                                await bot.send_message(user, text, parse_mode='HTML')
                                 # print("Отправил сообщение {user}")
                                 await asyncio.sleep(0.2)
         except: pass
