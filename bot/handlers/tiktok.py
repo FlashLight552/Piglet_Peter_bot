@@ -15,10 +15,21 @@ async def tk_video_sender(message : types.Message):
 
     if len(download_list) > 1:
         media = types.MediaGroup()
+        iter_num = 0
         for num, item in enumerate(download_list):
             if len(download_list)-1 != num:
-                media.attach_photo(types.InputFile(item))
-        await message.reply_media_group(media=media, disable_notification=True)
+                if iter_num < 10:
+                    media.attach_photo(types.InputFile(item))
+                    iter_num += 1
+                else:
+                    iter_num = 1
+                    await message.answer_media_group(media=media, disable_notification=True)
+                    media = types.MediaGroup()
+                    media.attach_photo(types.InputFile(item))
+                    
+
+        await message.answer_media_group(media=media, disable_notification=True)
+        await types.ChatActions.upload_audio()
         await message.reply_audio(open(download_list[len(download_list)-1], 'rb'), disable_notification=True, title='audio') 
 
         for item in download_list:
