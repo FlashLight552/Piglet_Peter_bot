@@ -18,6 +18,7 @@ async def tk_video_sender(message : types.Message):
         media = types.MediaGroup()
         iter_num = 0
         for num, item in enumerate(download_list):
+            await types.ChatActions.upload_photo()
             if len(download_list)-1 != num:
                 if iter_num < 10:
                     media.attach_photo(types.InputFile(item))
