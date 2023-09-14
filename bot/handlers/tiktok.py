@@ -1,5 +1,6 @@
 from aiogram import types, Dispatcher
 import os.path
+import asyncio
 from functions.tiktok_download import *
 
 
@@ -23,13 +24,15 @@ async def tk_video_sender(message : types.Message):
                     iter_num += 1
                 else:
                     iter_num = 1
+                    await asyncio.sleep(5)
                     await message.answer_media_group(media=media, disable_notification=True)
                     media = types.MediaGroup()
                     media.attach_photo(types.InputFile(item))
                     
-
+        await asyncio.sleep(5)
         await message.answer_media_group(media=media, disable_notification=True)
         await types.ChatActions.upload_audio()
+        await asyncio.sleep(5)
         await message.reply_audio(open(download_list[len(download_list)-1], 'rb'), disable_notification=True, title='audio') 
 
         for item in download_list:
