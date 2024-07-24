@@ -12,7 +12,7 @@ async def tk_video_sender(message : types.Message):
     await types.ChatActions.upload_document()
     try:
         download_list = td.musicaldown(str(message.text), file_path)
-    except: return message.answer('This video is currently not available')
+    except: return await message.answer('This video is currently not available')
 
     if len(download_list) > 1:
         media = types.MediaGroup()
