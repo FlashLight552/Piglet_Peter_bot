@@ -21,7 +21,7 @@ async def tk_video_sender(message : types.Message):
         await message.reply_video(open(file_path, 'rb'), disable_notification=True)
         os.remove(file_path)
         return
-    except: return message.answer('This video is currently not available')
+    except: return await message.answer('This video is currently not available')
 
 
 def handlers_tiktok(dp: Dispatcher):
