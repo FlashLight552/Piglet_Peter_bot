@@ -12,6 +12,8 @@ from config.config import FILES_STORAGE_GROUP
 from functions.tiktok_download import *
 from functions.sql import Database
 
+from tiktok_downloader import snaptik
+
 
 tiktok_pattern = re.compile('(https?:\/\/)?(vm.|www.|vt.)?(tiktok.com\/)')
 
@@ -27,43 +29,43 @@ async def inline_tts(inline_query: InlineQuery):
             file_path = 'downloads/tiktok/'+str(video_id)
 
             try:
-                td = tiktok_downloader()
-                download_list = td.musicaldown(url, file_path)
+                snaptik(url)[0].download(file_path)
+                # download_list = td.musicaldown(url, file_path)
             except: return
 
-            # Img
-            if len(download_list) > 1:
-                media = types.MediaGroup()
-                for num, item in enumerate(download_list):
-                    if len(download_list)-1 != num:
-                        media.attach_photo(types.InputFile(item))
-                storage_first_item = await telegram_bot.send_photo(FILES_STORAGE_GROUP, open(download_list[0], 'rb'), disable_notification=True)
-                # storage_img = await telegram_bot.send_media_group(FILES_STORAGE_GROUP, media=media, disable_notification=True)
-                # storage_audio = await telegram_bot.send_audio(FILES_STORAGE_GROUP, open(download_list[len(download_list)-1], 'rb'), disable_notification=True, title='audio') 
+            # # Img
+            # if len(download_list) > 1:
+            #     media = types.MediaGroup()
+            #     for num, item in enumerate(download_list):
+            #         if len(download_list)-1 != num:
+            #             media.attach_photo(types.InputFile(item))
+            #     storage_first_item = await telegram_bot.send_photo(FILES_STORAGE_GROUP, open(download_list[0], 'rb'), disable_notification=True)
+            #     # storage_img = await telegram_bot.send_media_group(FILES_STORAGE_GROUP, media=media, disable_notification=True)
+            #     # storage_audio = await telegram_bot.send_audio(FILES_STORAGE_GROUP, open(download_list[len(download_list)-1], 'rb'), disable_notification=True, title='audio') 
 
-                result_id: str = hashlib.md5(url.encode()).hexdigest()
-                answer = 'Увы, но этот TikTok нужно смотреть на сайте, в приложении или отправить мне в личку.'
-                item = InlineQueryResultCachedPhoto(
-                    id=result_id,
-                    photo_file_id=storage_first_item.photo[0].file_id,
-                    title=answer,
-                    description=answer,
-                    caption=answer,
-                    reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(text='Link', url=url)),
-                    )
+            #     result_id: str = hashlib.md5(url.encode()).hexdigest()
+            #     answer = 'Увы, но этот TikTok нужно смотреть на сайте, в приложении или отправить мне в личку.'
+            #     item = InlineQueryResultCachedPhoto(
+            #         id=result_id,
+            #         photo_file_id=storage_first_item.photo[0].file_id,
+            #         title=answer,
+            #         description=answer,
+            #         caption=answer,
+            #         reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(text='Link', url=url)),
+            #         )
                 
-                await inline_query.answer([item], cache_time=300)
+            #     await inline_query.answer([item], cache_time=300)
 
-                for item in download_list:
-                    try:
-                        os.remove(item)
-                    except: pass
-                return
+            #     for item in download_list:
+            #         try:
+            #             os.remove(item)
+            #         except: pass
+            #     return
             
             # Video
-            storage = await telegram_bot.send_video(FILES_STORAGE_GROUP, open(download_list[0], 'rb'), disable_notification=True)
+            storage = await telegram_bot.send_video(FILES_STORAGE_GROUP, open(file_path, 'rb'), disable_notification=True)
             try:
-                os.remove(download_list[0])
+                os.remove(file_path)
             except: pass
             result_id: str = hashlib.md5(url.encode()).hexdigest()
             item = InlineQueryResultCachedVideo(
